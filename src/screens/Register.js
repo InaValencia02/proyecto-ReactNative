@@ -1,10 +1,29 @@
 import React, {Component} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import {auth, db} from '../firebase/config';
+
+const styles = StyleSheet.create({
+    title:{
+        fontSize: 50,
+    },
+    field: {
+        fontSize: 20,
+    },
+    button: {
+        fontSize: 20,
+    },
+    error: {
+        color: 'red',
+        fontSize: 20,
+    },
+    text: {
+        fontSize: 15,
+    }
+})
 
 class Register extends Component{
 
-    onstructor(){
+    constructor(){
         super();
         this.state ={
             email: '',
@@ -17,6 +36,12 @@ class Register extends Component{
         }
     }
 
+    componentDidMount(){
+        auth.onAuthStateChanged((user)=>{
+          console.log(user)
+        })
+      }
+
     onSubmit(){
         auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then( res => {
@@ -26,15 +51,18 @@ class Register extends Component{
                 createdAt: Date.now(),
                 username: this.state.userName,
                 bio: this.state.bio,
+                profilePicture: this.state.profilePicture
             })
+            .then(() => {this.props.navigation.navigate('Login')})
         })
+        .catch(err => {this.setState({error: err.message})})
     }
     render(){
         return(
             <View>
                 <Text style={styles.title}>Create your account</Text>
                 <TextInput style={styles.field} 
-                keyboardType='email-address'
+                    keyboardType='email-address'
                     placeholder='Email'
                     onChangeText={ text => this.setState({email:text}) }
                     value={this.state.email} 
@@ -65,7 +93,7 @@ class Register extends Component{
 
                 <Text style={styles.error}>{this.state.error}</Text>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={styles.text}>Already have an account? Log in!</Text>
                 </TouchableOpacity>
             </View>
