@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import {auth, db} from '../firebase/config';
 
+const styles = StyleSheet.create({
+    field: {
+        fontSize: 20,
+    },
+})
+
 class Login extends Component{
 
     constructor(){
