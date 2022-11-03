@@ -6,7 +6,7 @@ class Posts extends Component {
     constructor(){
         super();
         this.state ={
-
+            description: '',
         }
     }
 
@@ -14,13 +14,57 @@ class Posts extends Component {
 
     }
 
+    submitPost() {
+        db.collection('posteos').add({
+            user: '', 
+            mail: '',
+            createdAt: Date.now(),
+            description: this.state.description,
+            likes: [],
+            comments: [], 
+            photo: ''
+        }).then(() => {
+            this.props.navigation.navigate("Home") 
+        }).catch(err => console.log(err))
+    }
+
     render() {
         return(
-            <View>
-                <Text>
-                    Hola
-                </Text>
+            <View style={styles.postContainer}>
+                <Image style={styles.image}>
+
+                </Image>
+
+                <TextInput 
+                    style={styles.postInput} 
+                    placeholder="Describe your food" 
+                    onChangeText={ text => this.setState({ description: text }) }
+                    value={this.state.description}
+                >
+                </TextInput>
+
+                <TouchableOpacity onPress={() =>  {this.submitPost();  this.props.navigation.navigate('Home')}}>
+                        <Text style={styles.postButton}>
+                            Post
+                        </Text>
+                </TouchableOpacity>
+
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    postContainer: {
+
+    },
+    postInput: {
+
+    },
+    postButton : {
+        
+    }
+});
+
+
+export default Posts
