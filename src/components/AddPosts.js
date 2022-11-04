@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import {auth, db} from '../firebase/config';
 
-class Posts extends Component {
+class AddPosts extends Component {
     constructor(){
         super();
         this.state ={
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Posts
+export default AddPosts
