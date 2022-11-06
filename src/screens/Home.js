@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, ActivityIndicator, Text, FlatList, ScrollView } from 'react-native';
-import Post from '../components/Post'
+import AddPosts from '../components/AddPosts'
 
 const styles = StyleSheet.create({ 
 
