@@ -2,7 +2,7 @@ import React, {Component} from React;
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
-import AddPosts from "../components/AddPosts";
+import AddPosts from "../screens/AddPosts";
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';

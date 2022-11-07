@@ -54,6 +54,12 @@ class MyCamera extends Component {
          })
          .catch(e=>console.log(e))
        }
+
+       clearPhoto() {
+        this.setState({
+            showCamera: true
+        })
+       }
        
       
     

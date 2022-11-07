@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, ActivityIndicator, Text, FlatList, ScrollView } from 'react-native';
-import AddPosts from '../components/AddPosts'
+import AddPosts from './AddPosts'
 import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({ 
