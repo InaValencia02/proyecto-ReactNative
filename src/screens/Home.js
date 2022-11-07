@@ -4,7 +4,10 @@ import AddPosts from '../components/AddPosts'
 import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({ 
+    containerHome: {
+        alignContent: 'center'
 
+    }
 })
 
 class Home extends Component{
@@ -35,9 +38,9 @@ class Home extends Component{
     render() {
 
         return (
-            <ScrollView style={styles.cotainerHome}>               
+            <ScrollView style={styles.containerHome}>               
                                                    
-                {this.state.posts === null ?
+               {/* this.state.posts === null ?
 
                     <ActivityIndicator size='large' color='yellow' />
                     :
@@ -45,8 +48,8 @@ class Home extends Component{
                         data={this.state.posts}
                         keyExtractor={item => item.id.toString()}
                         renderItem={({ item }) => <Post post={item} />}
-                    />
-                }                
+                    /> 
+        */}               
             </ScrollView> 
         );
     }
