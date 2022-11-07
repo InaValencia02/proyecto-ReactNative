@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList } from 'react-native';
 import { auth, db } from '../firebase/config';
+import { AntDesign} from '@expo/vector-icons';
+import firebase from 'firebase';
 
 class Posts extends Component {
     constructor(props) {
@@ -46,7 +48,7 @@ class Posts extends Component {
         db.collection('posts')
             .doc(this.props.post.id)
             .update({
-                comments: firebase.firestore.FieldValue.arrayUnion({owner: auth.currentUser.email, text: this.state.comment, author: this.props.post.data.user,createdAt: Date.now()})
+                comments: firebase.firestore.FieldValue.arrayUnion({owner: auth.currentUser.email, text: this.state.comment, author: auth.currentUser.email, createdAt: Date.now()})
             })
             .then(() => this.props.navigation.navigate('Home'))
             .catch(e => console.log('Error' + e))
