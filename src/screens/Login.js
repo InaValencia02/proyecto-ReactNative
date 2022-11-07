@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import {auth, db} from '../firebase/config';
+import {auth} from '../firebase/config';
 
 const styles = StyleSheet.create({
     field: {
@@ -30,7 +30,7 @@ class Login extends Component{
     }
 
     onSubmit(){
-        auth.signInUserWithEmailAndPassword(this.state.email, this.state.password)
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then( res => {
             this.setState({login: true})
             this.props.navigation.navigate('Home')
