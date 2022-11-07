@@ -89,6 +89,7 @@ class Register extends Component{
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} 
                 /> 
+                <MyCamera />
 
                 <TouchableOpacity onPress={() => this.onSubmit()}>
                     <Text style={styles.button}> Send </Text> 
