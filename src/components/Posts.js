@@ -9,7 +9,6 @@ class Posts extends Component {
             liked: this.props.post.data.likes.includes(auth.currentUser.email),
             comment: '',
             emptyComment: '',
-
         }
     }
 
