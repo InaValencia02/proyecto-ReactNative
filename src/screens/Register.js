@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import MyCamera from '../components/MyCamera'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableHighlightBase} from 'react-native';
 import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({
@@ -32,6 +33,7 @@ class Register extends Component{
             bio: '',
             error: [],
             registered: false,
+            requiredField: '',
         }
     }
 
@@ -42,6 +44,9 @@ class Register extends Component{
     }
 
     onSubmit(){
+        this.state.email == '' || this.state.password == '' || this.state.username == ''?
+        this.setState({requiredField: 'You need to fill the email, username and password in order to submit this form'})
+        :
         auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then( res => {
             this.setState({registered: true})
@@ -85,16 +90,12 @@ class Register extends Component{
                     value={this.state.bio} 
                 /> 
 
-                {
-                    this.state.email == '' || this.state.password == '' || this.state.username == ''?
-                    <Text>You need to fill the email, password and username</Text>
-                    :
-                    <TouchableOpacity onPress={() => this.onSubmit()}>
-                        <Text style={styles.button}> Send </Text> 
-                    </TouchableOpacity> 
-                }
+                <TouchableOpacity onPress={() => this.onSubmit()}>
+                    <Text style={styles.button}> Send </Text> 
+                </TouchableOpacity> 
 
                 <Text style={styles.error}>{this.state.error}</Text>
+                <Text style={styles.error}>{this.state.requiredField}</Text>
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={styles.text}>Already have an account? Log in!</Text>
