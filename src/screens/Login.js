@@ -24,7 +24,7 @@ class Login extends Component{
         auth.onAuthStateChanged( user => {
             if(user){
                 this.setState({login: true})
-                this.props.navigation.navigate('Home')
+                this.props.navigation.navigate('AppMainWindow')
             }
         })
     }
@@ -33,7 +33,7 @@ class Login extends Component{
         auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then( res => {
             this.setState({login: true})
-            this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('AppMainWindow')
         })
         .catch(err => {this.setState({error: err.message})})
     }
