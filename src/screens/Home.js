@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, ActivityIndicator, Text, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, ActivityIndicator, Text, FlatList, View } from 'react-native';
 import Posts from '../components/Posts'
 import {auth, db} from '../firebase/config';
-
-const styles = StyleSheet.create({ 
-    containerHome: {
-        alignContent: 'center'
-
-    }
-})
 
 class Home extends Component{
 
@@ -38,22 +31,33 @@ class Home extends Component{
     render() {
 
         return (
-            <ScrollView style={styles.containerHome}>               
+            <View style={styles.containerHome}>               
                                                    
-               {/* this.state.posts === null ?
+               { this.state.posts === null ?
 
-                    <ActivityIndicator size='large' color='yellow' />
+                    <ActivityIndicator size='large' color='black' />
                     :
                     <FlatList
                         data={this.state.posts}
                         keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Post post={item} />}
+                        renderItem={({ item }) => <Posts post={item}
+                        style={styles.flatlist} />}
                     /> 
-        */}               
-            </ScrollView> 
+        }               
+            </View> 
         );
     }
 
 }
+
+const styles = StyleSheet.create({ 
+    containerHome: {
+        alignContent: 'center',  
+        textAlign: 'center'    
+    },
+    flatlist: {
+        flex: 1
+    }
+})
 
 export default Home
