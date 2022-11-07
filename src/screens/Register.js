@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
-import { Camera } from 'expo-camera'
 import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({
@@ -33,9 +32,6 @@ class Register extends Component{
             bio: '',
             error: [],
             registered: false,
-            permission: false,
-            urlPhoto: '',
-            showCamera: true,
         }
     }
 
@@ -43,42 +39,6 @@ class Register extends Component{
         auth.onAuthStateChanged((user)=>{
           console.log(user)
         })
-
-        Camera.requestCameraPermissionsAsync()
-        .then(() => {
-            this.setState({permission: true})
-        })
-        .catch(e => console.log('El error fue' + e))
-    }
-
-    takePicture(){
-        this.cameraMethods.takePictureAsync()
-        .then(photo => {
-           this.setState({
-             urlPhoto: photo.uri, 
-             showCamera:false
-           })
-       })
-    }
-
-    savePicture(){
-        fetch(this.state.urlPhoto)
-        .then(res => res.blob())
-        .then(image => {
-            const ref = storage.ref(`photos/${Date.now()}.jpg`)
-            ref.put(image)
-                .then(() =>{
-                    ref.getDownloadURL()
-                        .then(url => {
-                            this.props.onImageUpload(url);
-                        })
-                })
-        })
-        .catch(e => console.log('El error es' + e))
-    }
-
-    deletePicture(){
-        this.setState({urlPhoto: '', showCamera: true})
     }
 
     onSubmit(){
@@ -124,37 +84,6 @@ class Register extends Component{
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} 
                 /> 
-                <View>
-                    {this.state.permission ?
-                        this.state.showCamera === false ?
-                        <View> 
-                            <Text>Photo preview</Text>
-                            <Image style={styles.preview}
-                                source={ {uri:this.state.urlPhoto} }
-                            />
-                            <View> 
-                                <TouchableOpacity onPress={() => this.savePicture}>
-                                    <Text>Save</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => this.deletePicture}>
-                                    <Text>Delete</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        :
-                        <View> 
-                            <Camera style={styles.cameraBody}
-                            type={Camera.Constants.Type.back}
-                            ref={cameraMethods => this.cameraMethods = cameraMethods}
-                            />
-                            <TouchableOpacity style={styles.shootButton} onPress={()=>this.takePicture()}>
-                                <Text style={styles.field} >Upload a profile picture</Text>
-                            </TouchableOpacity>
-                        </View>
-                    :
-                    <Text>Permission is needed to use the camera</Text>
-                    }
-                </View>
 
                 {
                     this.state.email == '' || this.state.password == '' || this.state.username == ''?
