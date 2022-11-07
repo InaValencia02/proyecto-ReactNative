@@ -8,8 +8,26 @@ class Profile extends Component{
     constructor () {
         super();
         this.state = {
-            
+            user: ''
         }
+    }
+
+    componentDidMount() {
+        db.collection('users').where("owner", "==", auth.currentUser).onSnapshot(
+            docs => {
+                let user = [];
+
+                docs.forEach( doc => {
+                    user.push({
+                        user: doc.data()
+                    })
+
+                this.setState({
+                    user: user
+                })
+                })
+            }
+        )
     }
 
     
@@ -19,9 +37,10 @@ class Profile extends Component{
         return (
 
             <View>
-
                 
-                
+            <Text>
+                Hola {this.state.user.owner}
+            </Text>
 
             </View>
 
