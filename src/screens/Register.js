@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import MyCamera from '../components/MyCamera'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableHighlightBase} from 'react-native';
 import {auth, db} from '../firebase/config';
+import MyCamera from '../components/MyCamera';
 
 const styles = StyleSheet.create({
     title:{
@@ -34,6 +35,9 @@ class Register extends Component{
             error: [],
             registered: false,
             requiredField: '',
+            post: '',
+            urlImg: '',
+            camera: true
         }
     }
 
