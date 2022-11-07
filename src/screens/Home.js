@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, ActivityIndicator, Text, FlatList, ScrollView } from 'react-native';
 import AddPosts from '../components/AddPosts'
+import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({ 
 
@@ -18,7 +19,7 @@ class Home extends Component{
 
     componentDidMount() {
         
-        db.collection('posts').orderBy('createdAt', 'desc').onSnapshot(
+        db.collection('posteos').orderBy('createdAt', 'desc').onSnapshot(
             docs => {
                 let array = []
                 docs.forEach(doc => {
