@@ -7,6 +7,9 @@ class AddPosts extends Component {
         super();
         this.state ={
             description: '',
+            img: '',
+            likes: [],
+            comments: []
         }
     }
 
@@ -22,7 +25,7 @@ class AddPosts extends Component {
             description: this.state.description,
             likes: [],
             comments: [], 
-            photo: ''
+            img: ''
         }).then(() => {
             this.props.navigation.navigate("Home") 
         }).catch(err => console.log(err))
@@ -32,7 +35,7 @@ class AddPosts extends Component {
         return(
             <View style={styles.postContainer}>
                 <Image style={styles.image}>
-
+                    
                 </Image>
 
                 <TextInput 
