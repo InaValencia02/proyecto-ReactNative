@@ -22,7 +22,7 @@ class Home extends Component{
 
     componentDidMount() {
         
-        db.collection('posteos').orderBy('createdAt', 'desc').onSnapshot(
+        db.collection('posts').orderBy('createdAt', 'desc').onSnapshot(
             docs => {
                 let array = []
                 docs.forEach(doc => {
