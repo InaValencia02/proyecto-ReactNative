@@ -1,58 +1,71 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import MyCamera from '../components/myCamera';
 import {auth, db} from '../firebase/config';
 
 class AddPosts extends Component {
     constructor(){
         super();
         this.state ={
-            description: '',
-            img: '',
-            likes: [],
-            comments: []
+            post: '',
+            urlImg: '',
+            camera: true
         }
     }
 
-    componentDidMount() {
-
-    }
-
     submitPost() {
-        db.collection('posteos').add({
-            user: '', 
-            mail: '',
+        db.collection('posts').add({
+            urlImg: this.state.urlImg,
+            owner: auth.currentUser.email,
+            post: this.state.post,
             createdAt: Date.now(),
-            description: this.state.description,
             likes: [],
             comments: [], 
-            img: ''
         }).then(() => {
             this.props.navigation.navigate("Home") 
+            this.setState({
+                camera: true,
+                post: ''
+            })
         }).catch(err => console.log(err))
+    }
+
+    onImageUpload(url){
+
+        this.setState({
+            urlImg: url,
+            camera: false
+        })
+
     }
 
     render() {
         return(
-            <View style={styles.postContainer}>
-                <Image style={styles.image}>
-                    
-                </Image>
 
-                <TextInput 
+                <>
+                    {
+                    this.state.camera 
+                    ? <MyCamera onImageUpload={(url) => this.onImageUpload(url)} style={styles.camera}/> 
+                    : <>
+                    <Image style={styles.img} source={{uri: this.state.urlImg}}/> 
+
+                    <TextInput 
                     style={styles.postInput} 
                     placeholder="Describe your food" 
-                    onChangeText={ text => this.setState({ description: text }) }
-                    value={this.state.description}
-                >
-                </TextInput>
+                    onChangeText={ text => this.setState({ post: text }) }
+                    value={this.state.post}
+                    />
 
-                <TouchableOpacity onPress={() =>  {this.submitPost();  this.props.navigation.navigate('Home')}}>
+                    <TouchableOpacity onPress={() =>  {this.submitPost();  this.props.navigation.navigate('Home')}}>
                         <Text style={styles.postButton}>
                             Post
                         </Text>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                </>
+                
+                }
+            </>
 
-            </View>
         )
     }
 }
@@ -64,8 +77,12 @@ const styles = StyleSheet.create({
     postInput: {
 
     },
-    postButton : {
-        
+    camera : {
+      flex: 1  
+    },
+    img: {
+        width: '200px',
+        height: '300px'
     }
 });
 

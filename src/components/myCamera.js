@@ -2,17 +2,15 @@ import { Camera } from 'expo-camera'
 import { React, Component } from 'react'
 import { View, Text, TouchableOpacity, FlatList, Image, TextInput} from "react-native"
 import {StyleSheet} from 'react-native';
-
+import {storage} from '../firebase/config';
 
 class MyCamera extends Component {
 
     constructor(props){
         super(props)
         this.state = {
-            photo: '',
             showCamera: true,
             permission: false,
-            description: '',
             uriImg: ''
         }
     }
@@ -33,7 +31,7 @@ class MyCamera extends Component {
         this.metodosDeCamara.takePictureAsync()
          .then(photo => {
             this.setState({
-              photo: photo.uri, 
+              uriImg: photo.uri, 
               showCamera:false
             })
         })
@@ -65,55 +63,86 @@ class MyCamera extends Component {
     
       render() {
         return (
-            <View style={styles.view}>
-                <Camera
-                    style={styles.cameraBody}
+            <>
+            
+            {this.state.permission ?
+
+                this.state.showCamera === false ?
+            
+                <View style={styles.view}>
+
+                    <Image
+                    style={styles.camera}
+                    source={{uri: this.state.uriImg}}
+                    />
+
+                    <View>
+                        <TouchableOpacity onPress={() => this.savePhoto()}>
+
+                            <Text>
+                                
+                            Use this image
+
+                            </Text>
+
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.clearPhoto()}>
+                            <Text>
+                            Delete
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>    
+
+                :
+
+                <View style={styles.view}>
+
+                    <Camera
+                    style={styles.camera}
                     type={Camera.Constants.Type.back}
-                    ref={metodosDeCamara => this.metodosDeCamara = metodosDeCamara}
-                 />
+                    ref = { (metodos) => this.metodosDeCamara = metodos }
+                    />
 
-                <TouchableOpacity 
-                    // style={styles.shootButton}
-                    onPress={()=>this.takePicture()}>
-                    <Text>Shoot</Text>
-                </TouchableOpacity>
+                    <View style={styles.button}>
 
+                        <TouchableOpacity onPress={() => this.takePicture()}>
+                            <Text>
+                            Take picture
+                            </Text>
+                        </TouchableOpacity>
 
+                    </View>
 
-                <Image  style={styles.preview}
-                        source={ {uri:this.state.photo} }
-                />
-                
-                <View // style={styles.buttonArea} 
-                >
-                    <TouchableOpacity onPress={()=>this.savePhoto()}>
-                        <Text>Aceptar</Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity onPress={()=>this.clearPhoto()}>
-                        <Text>Rechazar</Text>
-                    </TouchableOpacity>
                 </View>
 
-            </View>
+                : 
+
+                <Text>
+                    You don't have permission
+                </Text>
+
+            }
+            
+            </>
             
         )
         }
 }
 
 const styles = StyleSheet.create({
-    preview : {
-        width: '50vw',
-        height: '30vh',
+    button : {
+        flex: 1
     },
-    cameraBody : {
-        width: '30vw',
-        height: '30vh',
-        position: 'absolute',
+    camera : {
+        flex: 1,
+        height: '800px',
+        width: '400px'
     },
     view: {
-        position: 'absolute',
-        marginTop: '50px'
+        flex: 1
     }
 })
 
