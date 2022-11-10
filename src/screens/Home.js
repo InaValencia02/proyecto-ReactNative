@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, ActivityIndicator, Text, FlatList, View } from 'react-native';
+import { StyleSheet, ActivityIndicator, Text, FlatList, ScrollView } from 'react-native';
 import Posts from '../components/Posts'
 import {auth, db} from '../firebase/config';
 
@@ -31,7 +31,7 @@ class Home extends Component{
     render() {
 
         return (
-            <View style={styles.containerHome}>               
+            <ScrollView style={styles.containerHome}>               
                                                    
                { this.state.posts === null ?
 
@@ -44,7 +44,7 @@ class Home extends Component{
                         style={styles.flatlist} />}
                     /> 
         }               
-            </View> 
+            </ScrollView> 
         );
     }
 

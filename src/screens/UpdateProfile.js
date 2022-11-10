@@ -16,9 +16,7 @@ class UpdateProfile extends Component{
     }
 
     updatePassword( ) {
-        db.collection('users').doc(this.props.post.id).update({
-            userName: this.state.username,           
-        })  
+          
     }
     // https://stackoverflow.com/questions/48370601/change-password-using-react-native-and-firebase
 
