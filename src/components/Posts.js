@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList, Image } from 'react-native';
 import { auth, db } from '../firebase/config';
 import { AntDesign} from '@expo/vector-icons';
 import firebase from 'firebase';
@@ -11,10 +11,12 @@ class Posts extends Component {
             liked: this.props.post.data.likes.includes(auth.currentUser.email),
             comment: '',
             emptyComment: '',
+            posts: []
         }
     }
 
     componentDidMount() {
+        db.collection('posts').onSnapshot()
     }
 
     like() {
@@ -57,6 +59,16 @@ class Posts extends Component {
     render() {
         return (
             <View style={styles.postContainer}>
+
+                <Image style={styles.img} source={this.props.data.urlImg}/>
+
+                <Text>
+                    {this.props.data.owner}
+                </Text>
+
+                <Text>
+                    Posted on: {this.props.data.createdAt}
+                </Text>
 
                 <View style={styles.likes}>
                     <Text >This many people {this.props.post.data.likes.length} liked this post</Text>
@@ -102,6 +114,9 @@ const styles = StyleSheet.create({
     postContainer: {
 
     },
+    img: {
+        flex: 1
+    }
 });
 
 
