@@ -60,14 +60,14 @@ class Posts extends Component {
         return (
             <View style={styles.postContainer}>
 
-                <Image style={styles.img} source={this.props.data.urlImg}/>
+                <Image style={styles.img} source={this.props.post.data.urlImg}/>
 
                 <Text>
-                    {this.props.data.owner}
+                    {this.props.post.data.owner}
                 </Text>
 
                 <Text>
-                    Posted on: {this.props.data.createdAt}
+                    Posted on: {this.props.post.data.createdAt}
                 </Text>
 
                 <View style={styles.likes}>

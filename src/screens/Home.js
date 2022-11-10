@@ -33,7 +33,7 @@ class Home extends Component{
         return (
             <View style={styles.containerHome}>               
                                                    
-               {/* { this.state.posts === null ?
+               { this.state.posts === null ?
 
                     <ActivityIndicator size='large' color='black' />
                     :
@@ -42,8 +42,8 @@ class Home extends Component{
                         keyExtractor={item => item.id.toString()}
                         renderItem={({ item }) => <Posts post={item}
                         style={styles.flatlist} />}
-                    />  
-        }   */}             
+                    /> 
+        }               
             </View> 
         );
     }
