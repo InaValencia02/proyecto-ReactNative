@@ -18,7 +18,7 @@ class AppMainWindow extends Component{
 
     render(){
         return(
-            <Tab.Navigator>
+            <Tab.Navigator >
                 <Tab.Screen name='Home' component={Home} options={{tabBarIcon: () => <Entypo name="home" size={24} color="black" />}} />
                 <Tab.Screen name='Add new post' component={AddPosts} options={{tabBarIcon: () => <Ionicons name="md-add-circle-outline" size={24} color="black" /> }}/>
                 <Tab.Screen name='Search' component={Search} options={{tabBarIcon: () => <Ionicons name="search-circle" size={24} color="black" />}} />
