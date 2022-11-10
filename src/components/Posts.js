@@ -63,7 +63,7 @@ class Posts extends Component {
                 <Image style={styles.img} source={this.props.post.data.urlImg}/>
 
                 <Text>
-                    {this.props.post.data.owner}
+                    {this.props.post.data.user}
                 </Text>
 
                 <Text>
@@ -84,15 +84,16 @@ class Posts extends Component {
                 </View>
 
                 <View style={styles.comments}>
-                    {this.props.post.data.comments.length === 0?
+                    { this.props.post.data.comments.length === 0?
                         <Text>There aren't any comments yet</Text>
                         :
                         <FlatList 
                             data={this.props.post.data.comments.sort((a, b) => a.createdAt - b.createdAt)}
-                            keyExtractor={item => item.id.toString()}
+                            keyExtractor={item => {                                
+                                return item.createdAt.toString()}}
                             renderItem={({ item }) => <Text>{item.author}: {item.text}</Text>}
                         />
-                    }
+                }
                     <TextInput 
                         keyboardType='default'
                         placeholder='Write a comment'
@@ -112,10 +113,11 @@ class Posts extends Component {
 
 const styles = StyleSheet.create({
     postContainer: {
-
-    },
-    img: {
         flex: 1
+    },
+    img: {        
+        height: 200,
+        width: 200
     }
 });
 
