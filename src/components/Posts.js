@@ -60,7 +60,7 @@ class Posts extends Component {
         return (
             <View style={styles.postContainer}>
 
-                <Image style={styles.img} source={this.props.post.data.urlImg}/>
+                <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
                 <Text>
                     {this.props.post.data.user}
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     img: {        
-        height: 200,
-        width: 200
+        height: '200px',
+        width: '200px',
     }
 });
 
