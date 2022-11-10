@@ -4,8 +4,45 @@ import {auth} from '../firebase/config';
 
 const styles = StyleSheet.create({
     field: {
-        fontSize: 20,
+        fontSize: 15,
+        backgroundColor: 'rgb(230, 230, 230)',
+        margin: '1%',
+        borderRadius: '30px',
+        padding: '1%',
+        color: 'rgb(153, 153, 153)'
     },
+    title: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        margin: '8%',
+        marginBottom: '25%',
+    },
+    button:{
+        backgroundColor: 'rgb(255, 51, 0)',
+        borderRadius: '30px',
+        marginTop: '5%',
+        margin: '2%',
+        padding: '1%',
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'white',
+    },
+    text: {
+        textAlign: 'right',
+        marginRight: '4%',
+        color: 'rgb(51, 51, 51)',
+        marginTop: '1%',
+        fontSize: 12,
+    },
+    error: {
+        color: 'red',
+        marginTop: '1%',
+        textAlign: 'center',
+        fontSize: 12,
+    },
+    container: {
+        backgroundColor: 'white'
+    }
 })
 
 class Login extends Component{
@@ -32,7 +69,7 @@ class Login extends Component{
 
     onSubmit(){
         this.state.email == '' || this.state.password == '' ? 
-        this.setState({requiredField: 'You need to fill the email and password in order to submit this form'})
+        this.setState({requiredField: 'You need to fill the email and password to submit this form'})
         :
         auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then( res => {
@@ -44,28 +81,29 @@ class Login extends Component{
 
     render(){
         return(
-            <View>
-                <Text>Login</Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Login</Text>
+
                 <TextInput style={styles.field} 
                     keyboardType='email-address'
-                    placeholder='Email'
+                    placeholder='   Email'
                     onChangeText={ text => this.setState({email:text}) }
                     value={this.state.email} 
                 /> 
                 <TextInput style={styles.field} 
                     keyboardType='default'
-                    placeholder='Password'
+                    placeholder='   Password'
                     secureTextEntry={true} 
                     onChangeText={ text => this.setState({password:text}) }
                     value={this.state.password}
                 /> 
 
+                <Text style={styles.error}>{this.state.error}</Text>
+                <Text style={styles.error}>{this.state.requiredField}</Text>
+
                 <TouchableOpacity onPress={() => this.onSubmit()}>
                     <Text style={styles.button}> Send </Text> 
                 </TouchableOpacity> 
-
-                <Text style={styles.error}>{this.state.error}</Text>
-                <Text style={styles.error}>{this.state.requiredField}</Text>
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
                     <Text style={styles.text}>Don't have an account? Create one!</Text>
