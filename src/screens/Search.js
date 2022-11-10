@@ -9,24 +9,16 @@ class Search extends Component{
         this.state ={
             search: false,
             textSearch: '',
-            dataSearchResults: []
+            dataSearchResults: [],
         }
     }
 
     preventSubmit(event){
         event.preventDefault()
-    }
-
-    controlChanges(event){
-        this.setState({textSearch: event.target.value})
-    }
-    
-    searchResults(){
         db.collection('users').onSnapshot(
             docs => {
 
                 let info = [];
-                console.log(info);
 
                 docs.forEach( doc => {
                     info.push({id: doc.id, data: doc.data()})
@@ -35,8 +27,29 @@ class Search extends Component{
             }
         )
     }
+  
+    controlChanges(event){
+        this.setState({textSearch: event.target.value})
+    }
+
+    filterUser(){
+        let textToFilter = this.state.textSearch.toLowerCase();
+  
+        let userName = this.state.dataSearchResults.data.username;
+        this.setState({
+          dataSearchResults: userName.filter((user) => user.toLowerCase().includes(textToFilter) )})
+    }
+    
+    clear() {
+        this.setState({
+            dataSearchResults: [],
+            search: false,
+            textSearch: '',
+        })
+    };
 
     render(){
+        console.log(this.state.dataSearchResults)
         return(
             <View>
                 <Text>Search for anyone</Text>
@@ -47,9 +60,27 @@ class Search extends Component{
                     onChange={(event) => this.controlChanges(event)}
                 />
 
-                <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
-                    <Text>Send</Text>
+                {this.state.textSearch == '' ?
+                    <Text>You cannot send an empty form</Text>
+                    :
+                    <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
+                        <Text>Send</Text>
+                    </TouchableOpacity>
+                }
+
+                <TouchableOpacity onPress={() => this.clear()}>
+                    <Text>Clear search</Text>
                 </TouchableOpacity>
+
+            {this.state.dataSearchResults.length === 0?
+            <Text>Sorry, that user does not exist</Text>
+            :
+            <FlatList 
+                    data={this.state.dataSearchResults}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => <Text>{item.data.username}</Text> }
+                />
+            }
                 
             </View>
         )
