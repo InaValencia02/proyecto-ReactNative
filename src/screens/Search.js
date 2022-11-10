@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import { db} from '../firebase/config';
 
 class Search extends Component{
 
     constructor(){
         super();
         this.state ={
-            busqueda: false,
+            search: false,
             textSearch: '',
+            dataSearchResults: []
         }
     }
 
@@ -17,6 +19,21 @@ class Search extends Component{
 
     controlChanges(event){
         this.setState({textSearch: event.target.value})
+    }
+    
+    searchResults(){
+        db.collection('users').onSnapshot(
+            docs => {
+
+                let info = [];
+                console.log(info);
+
+                docs.forEach( doc => {
+                    info.push({id: doc.id, data: doc.data()})
+                })
+                this.setState({dataSearchResults: info, search: true})
+            }
+        )
     }
 
     render(){

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import MyCamera from '../components/MyCamera'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableHighlightBase} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({
