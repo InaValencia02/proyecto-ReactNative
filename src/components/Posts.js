@@ -52,7 +52,7 @@ class Posts extends Component {
             .update({
                 comments: firebase.firestore.FieldValue.arrayUnion({owner: auth.currentUser.email, text: this.state.comment, author: auth.currentUser.email, createdAt: Date.now()})
             })
-            .then(() => this.props.navigation.navigate('Home'))
+            .then(this.setState({comment: ''}))
             .catch(e => console.log('Error' + e))
     }
 
