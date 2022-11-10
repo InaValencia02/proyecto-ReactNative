@@ -109,9 +109,7 @@ class MyCamera extends Component {
                     <View style={styles.button}>
 
                         <TouchableOpacity onPress={() => this.takePicture()}>
-                            <Text>
-                            Take picture
-                            </Text>
+                            <Text style={styles.field}>   Take a picture</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -143,7 +141,16 @@ const styles = StyleSheet.create({
     },
     view: {
         flex: 1
-    }
+    },
+    field: {
+        fontSize: 15,
+        backgroundColor: 'rgb(230, 230, 230)',
+        margin: '1%',
+        borderRadius: '30px',
+        padding: '1%',
+        color: 'rgb(153, 153, 153)',
+        marginTop: '-2%'
+    },
 })
 
 export default MyCamera

@@ -53,7 +53,8 @@ class Home extends Component{
 const styles = StyleSheet.create({ 
     containerHome: {
         alignContent: 'center',  
-        textAlign: 'center'    
+        textAlign: 'center',
+        backgroundColor: 'white'
     },
     flatlist: {
         flex: 1

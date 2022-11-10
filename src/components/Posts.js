@@ -98,14 +98,17 @@ class Posts extends Component {
                 }
                     <TextInput 
                         keyboardType='default'
-                        placeholder='Write a comment'
+                        placeholder='   Write a comment'
                         onChangeText={ text => this.setState({comment:text}) }
                         value={this.state.comment} 
+                        style={styles.field}
                     />
+
+                    <Text style={styles.error}>{this.state.emptyComment}</Text>
+                    
                     <TouchableOpacity onPress={() => this.onSubmit()}>
-                        <Text>Add </Text>
+                        <Text style={styles.button}>Add comment</Text>
                     </TouchableOpacity>
-                    <Text>{this.state.emptyComment}</Text>
                 </View>
 
             </View>
@@ -120,7 +123,32 @@ const styles = StyleSheet.create({
     img: {        
         height: '200px',
         width: '200px',
-    }
+    },
+    field: {
+        fontSize: 15,
+        backgroundColor: 'rgb(230, 230, 230)',
+        margin: '1%',
+        borderRadius: '30px',
+        padding: '1%',
+        color: 'rgb(153, 153, 153)',
+        marginTop: '5%'
+    },
+    button:{
+        backgroundColor: 'rgb(255, 51, 0)',
+        borderRadius: '30px',
+        marginTop: '1%',
+        margin: '2%',
+        padding: '1%',
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'white',
+    },
+    error: {
+        color: 'red',
+        marginTop: '1%',
+        textAlign: 'center',
+        fontSize: 12,
+    },
 });
 
 

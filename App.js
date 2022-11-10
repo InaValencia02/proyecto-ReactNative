@@ -12,8 +12,27 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='Login' component={Login}/>
-        <Stack.Screen name='Register' component={Register}/>
+        <Stack.Screen name='Login' component={Login} 
+          options={{
+            headerStyle: {
+              backgroundColor: 'rgb(230, 230, 230)',
+            },
+            headerTitleStyle: {
+              fontSize: 15,
+            },
+            headerShown: false
+          }}
+        />
+        <Stack.Screen name='Register' component={Register}
+          options={{
+            headerStyle: {
+              backgroundColor: 'rgb(230, 230, 230)',
+            },
+            headerTitleStyle: {
+              fontSize: 15,
+            },
+          }}
+        />
         <Stack.Screen name='AppMainWindow' component={AppMainWindow} options={{headerShown: false}}/>
         <Stack.Screen name='Home' component={Home} options={{headerShown:false}} />
       </Stack.Navigator>
