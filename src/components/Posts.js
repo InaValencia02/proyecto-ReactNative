@@ -57,9 +57,10 @@ class Posts extends Component {
     }
 
     render() {
+        console.log(this.props.post.data.urlImg)
         return (
             <View style={styles.postContainer}>
-
+                
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
                 <Text>
@@ -89,7 +90,8 @@ class Posts extends Component {
                         :
                         <FlatList 
                             data={this.props.post.data.comments.sort((a, b) => a.createdAt - b.createdAt)}
-                            keyExtractor={item => {                                
+                            keyExtractor={item => { 
+                               
                                 return item.createdAt.toString()}}
                             renderItem={({ item }) => <Text>{item.author}: {item.text}</Text>}
                         />

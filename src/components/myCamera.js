@@ -38,7 +38,7 @@ class MyCamera extends Component {
       }
 
       savePhoto(){
-        fetch(this.state.photo)
+        fetch(this.state.uriImg)
          .then(res=>res.blob())
          .then(image =>{
            const ref=storage.ref(`photos/${Date.now()}.jpg`)
