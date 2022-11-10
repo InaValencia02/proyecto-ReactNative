@@ -89,7 +89,8 @@ class Posts extends Component {
                         :
                         <FlatList 
                             data={this.props.post.data.comments.sort((a, b) => a.createdAt - b.createdAt)}
-                            keyExtractor={item => {                                
+                            keyExtractor={item => { 
+                               
                                 return item.createdAt.toString()}}
                             renderItem={({ item }) => <Text>{item.author}: {item.text}</Text>}
                         />
