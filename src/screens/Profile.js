@@ -30,8 +30,6 @@ class Profile extends Component{
         )
     }
 
-    
-
     render () {
 
         return (
@@ -39,7 +37,7 @@ class Profile extends Component{
             <View>
                 
             <Text>
-                Hola {this.state.user.owner}
+                Hola 
             </Text>
 
             </View>

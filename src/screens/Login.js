@@ -17,6 +17,7 @@ class Login extends Component{
             password: '',
             login: false,
             error: [],
+            requiredField: '',
         }
     }
 
@@ -30,6 +31,9 @@ class Login extends Component{
     }
 
     onSubmit(){
+        this.state.email == '' || this.state.password == '' ? 
+        this.setState({requiredField: 'You need to fill the email and password in order to submit this form'})
+        :
         auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then( res => {
             this.setState({login: true})
@@ -61,6 +65,7 @@ class Login extends Component{
                 </TouchableOpacity> 
 
                 <Text style={styles.error}>{this.state.error}</Text>
+                <Text style={styles.error}>{this.state.requiredField}</Text>
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
                     <Text style={styles.text}>Don't have an account? Create one!</Text>
