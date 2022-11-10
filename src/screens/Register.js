@@ -4,21 +4,45 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableHighlight
 import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({
-    title:{
-        fontSize: 50,
-    },
     field: {
-        fontSize: 20,
+        fontSize: 15,
+        backgroundColor: 'rgb(230, 230, 230)',
+        margin: '1%',
+        borderRadius: '30px',
+        padding: '1%',
+        color: 'rgb(153, 153, 153)'
     },
-    button: {
-        fontSize: 20,
+    title: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        margin: '8%',
+        marginBottom: '19%',
+    },
+    button:{
+        backgroundColor: 'rgb(255, 51, 0)',
+        borderRadius: '30px',
+        marginTop: '5%',
+        margin: '2%',
+        padding: '1%',
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'white',
+    },
+    text: {
+        textAlign: 'right',
+        marginRight: '4%',
+        color: 'rgb(51, 51, 51)',
+        marginTop: '1%',
+        fontSize: 12,
     },
     error: {
         color: 'red',
-        fontSize: 20,
+        marginTop: '1%',
+        textAlign: 'center',
+        fontSize: 12,
     },
-    text: {
-        fontSize: 15,
+    container: {
+        backgroundColor: 'white'
     }
 })
 
@@ -65,41 +89,41 @@ class Register extends Component{
     }
     render(){
         return(
-            <View>
-                <Text style={styles.title}>Create your account</Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Register</Text>
                 <TextInput style={styles.field} 
                     keyboardType='email-address'
-                    placeholder='Email'
+                    placeholder='   Email'
                     onChangeText={ text => this.setState({email:text}) }
                     value={this.state.email} 
                 />   
                 <TextInput style={styles.field} 
                     keyboardType='default'
-                    placeholder='Password'
+                    placeholder='   Password'
                     secureTextEntry={true} 
                     onChangeText={ text => this.setState({password:text}) }
                     value={this.state.password}
                 /> 
                 <TextInput style={styles.field} 
                 keyboardType='default'
-                    placeholder='Username'
+                    placeholder='   Username'
                     onChangeText={ text => this.setState({username:text}) }
                     value={this.state.username} 
                 /> 
                 <TextInput style={styles.field} 
                 keyboardType='default'
-                    placeholder='Bio'
+                    placeholder='   Bio'
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} 
                 /> 
                 <MyCamera />
 
+                <Text style={styles.error}>{this.state.error}</Text>
+                <Text style={styles.error}>{this.state.requiredField}</Text>
+
                 <TouchableOpacity onPress={() => this.onSubmit()}>
                     <Text style={styles.button}> Send </Text> 
                 </TouchableOpacity> 
-
-                <Text style={styles.error}>{this.state.error}</Text>
-                <Text style={styles.error}>{this.state.requiredField}</Text>
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={styles.text}>Already have an account? Log in!</Text>
