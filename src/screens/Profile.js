@@ -8,27 +8,51 @@ class Profile extends Component{
     constructor () {
         super();
         this.state = {
-            user: ''
+            user: '',
+            info: [],
+            posts: []
         }
     }
 
-    /* componentDidMount() {
-        db.collection('users').where("owner", "==", auth.currentUser).onSnapshot(
+    componentDidMount() {
+        db.collection('users').where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
-                let user = [];
+                let info = [];
 
                 docs.forEach( doc => {
-                    user.push({
-                        user: doc.data()
+                    info.push({
+                        data: doc.data(),
                     })
 
                 this.setState({
-                    user: user
+                    info: info,
                 })
                 })
             }
         )
-    } */
+
+        this.userPosts()
+
+        console.log(this.state.posts);
+
+    }
+
+    userPosts() {
+        db.collection('posts').where("owner", "==", auth.currentUser.email).onSnapshot(
+            docs => {
+                let posts = []
+                docs.forEach(doc => {
+                    posts.push({
+                        data: doc.data(),
+                        id: doc.createdAt
+                    })
+                })
+            this.setState({
+                posts: posts
+            })
+            }
+        )
+    }
 
     logout(){
         auth.signOut()
@@ -36,6 +60,8 @@ class Profile extends Component{
     }
 
     render () {
+
+        console.log(this.state.info);
 
         return (
 
@@ -48,6 +74,9 @@ class Profile extends Component{
                 <TouchableOpacity onPress={() => this.logout()}>
                     <Text>Logout</Text>
                 </TouchableOpacity>
+
+
+            
 
             </View>
 
