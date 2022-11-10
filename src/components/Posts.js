@@ -57,9 +57,10 @@ class Posts extends Component {
     }
 
     render() {
+        console.log(this.props.post.data.urlImg)
         return (
             <View style={styles.postContainer}>
-
+                
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
                 <Text>
