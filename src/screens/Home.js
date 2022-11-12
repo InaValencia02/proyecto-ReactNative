@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     flatlist: {
-        flex: 1
+        flex: 1,
+        width: '100%'
     }
 })
 
