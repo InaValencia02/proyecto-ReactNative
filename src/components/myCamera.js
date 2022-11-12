@@ -13,6 +13,7 @@ class MyCamera extends Component {
             permission: false,
             uriImg: ''
         }
+        this.cameraMethods = undefined
     }
 
 
@@ -23,12 +24,12 @@ class MyCamera extends Component {
                    permission: true,
                })
           })
-          .catch( e => console.log(e))          
+          .catch( e => console.log('El error fue' + e))          
       }
 
       takePicture(){
-        console.log(this.metodosDeCamara);
-        this.metodosDeCamara.takePictureAsync()
+        console.log(this.cameraMethods);
+        this.cameraMethods.takePictureAsync()
          .then(photo => {
             this.setState({
               uriImg: photo.uri, 
@@ -47,6 +48,7 @@ class MyCamera extends Component {
                    ref.getDownloadURL()
                         .then(url => {
                             this.props.onImageUpload(url);
+                            
                         })
                  })
          })
@@ -55,7 +57,8 @@ class MyCamera extends Component {
 
        clearPhoto() {
         this.setState({
-            showCamera: true
+            showCamera: true,
+            uriImg: ''
         })
        }
        
@@ -102,8 +105,8 @@ class MyCamera extends Component {
 
                     <Camera
                     style={styles.camera}
-                    type={Camera.Constants.Type.back}
-                    ref = { (metodos) => this.metodosDeCamara = metodos }
+                    type={Camera.Constants.Type.front}
+                    ref = { (metodos) => this.cameraMethods = metodos }
                     />
 
                     <View style={styles.button}>
@@ -132,7 +135,9 @@ class MyCamera extends Component {
 
 const styles = StyleSheet.create({
     button : {
-        flex: 1
+        flex: 1,
+        justifyContent:'center',
+        alignItems: 'center'
     },
     camera : {
         flex: 1,

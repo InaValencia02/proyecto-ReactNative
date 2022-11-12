@@ -59,9 +59,8 @@ class Register extends Component{
             error: [],
             registered: false,
             requiredField: '',
-            post: '',
             urlImg: '',
-            camera: true
+            showCamera: true
         }
     }
 
@@ -88,6 +87,11 @@ class Register extends Component{
         })
         .catch(err => {this.setState({error: err.message})})
     }
+
+    onImageUpload(url){
+        this.setState({showCamera: false, urlImg: url})
+    }
+
     render(){
         return(
             <View style={styles.container}>
@@ -117,7 +121,7 @@ class Register extends Component{
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} 
                 /> 
-                <MyCamera />
+                {/* <MyCamera onImageUpload={(url) => this.onImageUpload(url)}/> */}
 
                 <Text style={styles.error}>{this.state.error}</Text>
                 <Text style={styles.error}>{this.state.requiredField}</Text>
