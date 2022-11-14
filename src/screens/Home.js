@@ -40,8 +40,8 @@ class Home extends Component{
                     <FlatList
                         data={this.state.posts}
                         keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Posts post={item}
-                        style={styles.flatlist} />}
+                        renderItem={({ item }) => <Posts post={item} />}
+                        style={styles.flatlist}
                     /> 
         }               
             </ScrollView> 
