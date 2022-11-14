@@ -30,6 +30,7 @@ class Home extends Component{
 
     render() {
 
+
         return (
             <ScrollView style={styles.containerHome}>               
                                                    
@@ -40,7 +41,7 @@ class Home extends Component{
                     <FlatList
                         data={this.state.posts}
                         keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Posts post={item}
+                        renderItem={({ item }) => <Posts post={item} navigation={this.props.navigation}
                         style={styles.flatlist} />}
                     /> 
         }               

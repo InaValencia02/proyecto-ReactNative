@@ -61,8 +61,6 @@ class Posts extends Component {
         this.props.navigation.navigate("OtherProfile", {user: user})
     }    
 
-
-
     render() {
         console.log(this.props.post.data.urlImg)
 

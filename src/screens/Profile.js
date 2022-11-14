@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
 
 
+
 class Profile extends Component {
 
     constructor() {
@@ -33,7 +34,8 @@ class Profile extends Component {
 
         this.userPosts()
 
-        console.log(this.state.info);
+
+        console.log(this.props.route.params.user)
 
     }
 
