@@ -35,7 +35,7 @@ class Home extends Component{
                                                    
                { this.state.posts === null ?
 
-                    <ActivityIndicator size='large' color='black' />
+                    <ActivityIndicator size='large' color='orange' style={styles.loader} />
                     :
                     <FlatList
                         data={this.state.posts}
@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
     flatlist: {
         flex: 1,
         width: '100%'
+    },
+    loader:{
+        marginTop: 100
     }
 })
 

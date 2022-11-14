@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import { db} from '../firebase/config';
 
 class Search extends Component{
@@ -9,12 +9,12 @@ class Search extends Component{
         this.state ={
             search: false,
             textSearch: '',
-            dataSearchResults: [],
+            users:[],  
+            filteredUsers: [],
+            usersErr: ''
         }
     }
-
-    preventSubmit(event){
-        event.preventDefault()
+    componentDidMount () {
         db.collection('users').onSnapshot(
             docs => {
 
@@ -23,22 +23,38 @@ class Search extends Component{
                 docs.forEach( doc => {
                     info.push({id: doc.id, data: doc.data()})
                 })
-                this.setState({dataSearchResults: info, search: true})
+                this.setState({users: info})
             }
         )
+    }
+
+    preventSubmit(event){       
+        event.preventDefault() 
+
+        this.setState({ usersErr: ''}); 
+
+        let textToFilter = this.state.textSearch.toLowerCase();
+
+        if (this.state.textSearch === '') {
+            this.setState({requiredField: 'You cannot send an empty form'})
+        } else {
+            console.log(this.state.users)
+            this.setState({requiredField: ''})
+
+            const filteredUsers = this.state.users?.filter((user) => user.data.username.toLowerCase().includes(textToFilter));
+            
+            console.log(filteredUsers)
+
+            if (filteredUsers.length === 0) return this.setState({ usersErr: 'Sorry, that user does not exist', filteredUsers: []}) 
+
+
+            this.setState({ filteredUsers: filteredUsers}) 
+        }
     }
   
     controlChanges(event){
         this.setState({textSearch: event.target.value})
-    }
-
-    filterUser(){
-        let textToFilter = this.state.textSearch.toLowerCase();
-  
-        let userName = this.state.dataSearchResults.data.username;
-        this.setState({
-          dataSearchResults: userName.filter((user) => user.toLowerCase().includes(textToFilter) )})
-    }
+    }    
     
     clear() {
         this.setState({
@@ -52,39 +68,78 @@ class Search extends Component{
         console.log(this.state.dataSearchResults)
         return(
             <View>
-                <Text>Search for anyone</Text>
-                <TextInput keyboardType='default'
+                <Text style={styles.title}>Search for anyone</Text>
+                <TextInput style={styles.field} 
+                     keyboardType='default'
                     placeholder='   Search ' 
                     onChangeText={ text => this.setState({textSearch:text}) }
                     value={this.state.textSearch}
                     onChange={(event) => this.controlChanges(event)}
                 />
-
-                {this.state.textSearch == '' ?
-                    <Text>You cannot send an empty form</Text>
-                    :
-                    <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
-                        <Text>Send</Text>
-                    </TouchableOpacity>
-                }
+               
+                <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
+                    <Text  style={styles.button}>Send</Text>
+                </TouchableOpacity>
+                
+                <Text style={styles.error}>{this.state.requiredField}</Text>
 
                 <TouchableOpacity onPress={() => this.clear()}>
-                    <Text>Clear search</Text>
+                    <Text  style={styles.button}>Clear search</Text>
                 </TouchableOpacity>
 
-            {this.state.dataSearchResults.length === 0?
-            <Text>Sorry, that user does not exist</Text>
-            :
-            <FlatList 
-                    data={this.state.dataSearchResults}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => <Text>{item.data.username}</Text> }
-                />
-            }
+                <Text>{this.state.usersErr}</Text>
+
+                <FlatList 
+                        data={this.state.filteredUsers}
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={({ item }) => <Text>{item.data.username}</Text> }
+                    />
                 
             </View>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    field: {
+        fontSize: 15,
+        backgroundColor: 'rgb(230, 230, 230)',
+        margin: '1%',
+        borderRadius: '30px',
+        padding: '1%',
+        color: 'rgb(153, 153, 153)'
+    },
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        margin: '8%',
+        marginBottom: '19%',
+    },
+    button:{
+        backgroundColor: 'rgb(255, 51, 0)',
+        borderRadius: '30px',
+        marginTop: '5%',
+        margin: '2%',
+        padding: '1%',
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'white',
+    },
+    text: {
+        textAlign: 'right',
+        marginRight: '4%',
+        color: 'rgb(51, 51, 51)',
+        marginTop: '1%',
+        fontSize: 12,
+    },
+    error: {
+        color: 'red',
+        marginTop: '1%',
+        textAlign: 'center',
+        fontSize: 12,
+    },    
+})
+
+
 export default Search
+

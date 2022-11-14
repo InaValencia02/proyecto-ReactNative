@@ -78,7 +78,7 @@ class Posts extends Component {
                 </Text>
 
                 <View style={styles.likes}>
-                    <Text >This many people {this.props.post.data.likes.length} liked this post</Text>
+                    <Text > {this.props.post.data.likes.length} people like this post</Text>
                     {this.state.liked ?
                         <TouchableOpacity onPress={() => this.dislike()}>
                             <Text style={styles.like}> <AntDesign name="heart" size={24} color="red" /> </Text>
