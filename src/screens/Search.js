@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, View} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import { db} from '../firebase/config';
-import SearchResults from '../components/SearchResults';
 
 class Search extends Component{
 
@@ -68,7 +67,7 @@ class Search extends Component{
     render(){
         console.log(this.state.dataSearchResults)
         return(
-            <ScrollView style={styles.container}>
+            <View>
                 <Text style={styles.title}>Search for anyone</Text>
                 <TextInput style={styles.field} 
                      keyboardType='default'
@@ -78,27 +77,27 @@ class Search extends Component{
                     onChange={(event) => this.controlChanges(event)}
                 />
                
-               <View>
-                    <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
-                        <Text  style={styles.button}>Send</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.clear()}>
-                        <Text  style={styles.button}>Clear search</Text>
-                    </TouchableOpacity>
+               <View style= {styles.buttonsContainer}>
+                <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
+                    <Text  style={styles.button}>Send</Text>
+                </TouchableOpacity>
+                 <TouchableOpacity onPress={() => this.clear()}>
+                    <Text  style={styles.button}>Clear search</Text>
+                </TouchableOpacity>
                </View>
                 
-                <Text style={styles.error}>{this.state.requiredField}</Text>
+                
+                <Text style={styles.error}>{this.state.requiredField}</Text>               
 
                 <Text>{this.state.usersErr}</Text>
 
                 <FlatList 
                         data={this.state.filteredUsers}
                         keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <SearchResults userInfo={item}/> }
-                        style={styles.flatlist}
+                        renderItem={({ item }) => <Text>{item.data.username}</Text> }
                     />
                 
-            </ScrollView>
+            </View>
         )
     }
 }
@@ -113,20 +112,27 @@ const styles = StyleSheet.create({
         color: 'rgb(153, 153, 153)'
     },
     title: {
-        fontSize: 50,
+        fontSize: 30,
         fontWeight: 'bold',
         margin: '8%',
         marginBottom: '19%',
     },
+    buttonsContainer:{
+        display: 'flex',
+        flexDirection: 'row',    
+        padding: 30, 
+        justifyContent: 'space-around'               
+    },
     button:{
         backgroundColor: 'rgb(255, 51, 0)',
-        borderRadius: '30px',
-        marginTop: '5%',
-        margin: '2%',
-        padding: '1%',
+        borderRadius: 30,
+        marginTop: 5,
+        margin: 2,
+        padding: 7,
         textAlign: 'center',
         fontSize: 15,
         color: 'white',
+        flex: 1    
     },
     text: {
         textAlign: 'right',
@@ -141,16 +147,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
     },    
-    flatlist: {
-        flex: 1,
-        width: '100%',
-    },
-    container: {
-        backgroundColor: 'white',
-        flex: 1,
-        alignContent: 'center',  
-        textAlign: 'center',
-    }
 })
 
 

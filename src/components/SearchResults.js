@@ -3,17 +3,23 @@ import {View, Image, Text, StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
     image: {
-        height: 130,
-        width: 130,
-        borderRadius: '100%',
-        alignSelf: 'center',
-        marginTop: '5%'
+        height: 70,
+        width: 100,  
+        borderRadius:100,      
+        alignSelf: 'center',       
+        flex: 1
     },
     resultsContainer:{
         display: 'flex',
-        flexDirection: 'row',
-        flex: 1,
+        flexDirection: 'row',    
         padding: 30,
+        alignItems:'center',
+        backgroundColor: 'rgb(243, 237, 235)',
+        borderRadius: 10,
+        margin: 20
+    },
+    info:{
+        flex:3
     },
     name: {
         fontSize: 20,
@@ -40,13 +46,14 @@ class SearchResults extends Component {
         console.log(this.props.userInfo)
         return(
             <View style={styles.resultsContainer}>
-                
-                <Text style={styles.name}>{this.props.userInfo.data.username} </Text>
+                 <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
+                <View style= {styles.info}>
                 <Text style={styles.name} onPress={() =>this.goToProfile(this.props.userInfo.data.owner)}>
                     {this.props.userInfo.data.username} 
                 </Text>
-                <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
                 <Text style={styles.bio}>{this.props.userInfo.data.bio}</Text>
+                </View>                               
+                
             </View>
         )
     }
