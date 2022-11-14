@@ -66,6 +66,10 @@ class Posts extends Component {
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
                 <Text>
+                    {this.props.post.data.post}
+                </Text>
+
+                <Text>
                     {this.props.post.data.owner}
                 </Text>
 

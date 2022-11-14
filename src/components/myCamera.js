@@ -137,12 +137,16 @@ const styles = StyleSheet.create({
     button : {
         flex: 1,
         justifyContent:'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0,
+        left: '50%',
+        transform: "translate(-50%, -50%)"
     },
     camera : {
         flex: 1,
-        height: '800px',
-        width: '400px'
+        height: '400px',
+        width: '400px',
     },
     view: {
         flex: 1
@@ -154,7 +158,9 @@ const styles = StyleSheet.create({
         borderRadius: '30px',
         padding: '1%',
         color: 'rgb(153, 153, 153)',
-        marginTop: '-2%'
+        marginTop: '-2%',
+        width: '100%',
+        textAlign: 'center'
     },
 })
 
