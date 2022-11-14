@@ -5,6 +5,8 @@ import { auth, db } from '../firebase/config';
 import Posts from '../components/Posts'
 import { EvilIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import firebase from 'firebase';
+
 
 class Profile extends Component {
 
@@ -74,24 +76,25 @@ class Profile extends Component {
     updateUserName() {
         db.collection('users').doc(this.state.userid).update({
             username: this.state.newusername,
-        });
-        this.setState({updateUserName: false})
+        }).then (() => this.setState({updateUserName: false})) 
+        
     }
     updateBio() {
         db.collection('users').doc(this.state.userid).update({
             bio: this.state.newbio
-        });
-        this.setState({updateBio: false})
+        }).then(() => this.setState({updateBio: false}))
+        
     }
 
     updatePassword( ) {
-        const emailCred  = firebase.auth.EmailAuthProvider.credential( firebase.auth().currentUser, this.state.oldPass);
-            firebase.auth().currentUser.reauthenticateWithCredential(emailCred)
+        const emailCred  = firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, this.state.oldPass);
+            auth.currentUser.reauthenticateWithCredential(emailCred)
             .then(() => {                    
-              return firebase.auth().currentUser.updatePassword(this.state.newPass);
+              return auth.currentUser.updatePassword(this.state.newPass)
+                        .then (this.setState({updatePass: false}));
             })
             .catch(error => {console.log(error);});
-            this.setState({updateBio: false})
+           
     }
 
 

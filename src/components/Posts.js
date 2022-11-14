@@ -57,11 +57,17 @@ class Posts extends Component {
             .catch(e => console.log('Error' + e))
     }
 
+    goToProfile(user) {
+        this.props.navigation.navigate("OtherProfile", {user: user})
+    }    
+
+
+
     render() {
         console.log(this.props.post.data.urlImg)
 
         return (
-            <View style={styles.postContainer}>
+            <View style={styles.containerHome}>      
                 
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
@@ -69,7 +75,7 @@ class Posts extends Component {
                     {this.props.post.data.post}
                 </Text>
 
-                <Text>
+                <Text onPress={() =>this.goToProfile(this.props.post.data.owner)}>
                     {this.props.post.data.owner}
                 </Text>
 
