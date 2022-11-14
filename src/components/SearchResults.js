@@ -30,11 +30,17 @@ class SearchResults extends Component {
         }
     }
 
+    goToProfile(user) {
+        this.props.navigation.navigate("OtherProfile", {user: user})
+    } 
+
     render(){
         console.log(this.props.userInfo)
         return(
             <View style={styles.resultsContainer}>
-                <Text style={styles.name}>{this.props.userInfo.data.username} </Text>
+                <Text style={styles.name} onPress={() =>this.goToProfile(this.props.userInfo.data.owner)}>
+                    {this.props.userInfo.data.username} 
+                </Text>
                 <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
                 <Text style={styles.bio}>{this.props.userInfo.data.bio}</Text>
             </View>
