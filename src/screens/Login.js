@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'white',
     },
-    text: {
+    redirect: {
         textAlign: 'right',
         marginRight: '4%',
         color: 'rgb(51, 51, 51)',
@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     container: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        flex: 1,
+        
     }
 })
 
@@ -106,7 +108,7 @@ class Login extends Component{
                 </TouchableOpacity> 
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                    <Text style={styles.text}>Don't have an account? Create one!</Text>
+                    <Text style={styles.redirect}>Don't have an account? Create one!</Text>
                 </TouchableOpacity>
 
             </View>

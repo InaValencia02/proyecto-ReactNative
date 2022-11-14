@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import MyCamera from '../components/MyCamera'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView} from 'react-native';
 import {auth, db} from '../firebase/config';
 
 const styles = StyleSheet.create({
     field: {
+        width: '100%',
         fontSize: 15,
         backgroundColor: 'rgb(230, 230, 230)',
         margin: '1%',
@@ -15,25 +16,27 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        margin: '8%',
-        marginBottom: '19%',
+        height: 100,
+        margin: 5,
     },
     button:{
         backgroundColor: 'rgb(255, 51, 0)',
         borderRadius: '30px',
-        marginTop: '5%',
         margin: '2%',
-        padding: '1%',
+        padding: 3,
         textAlign: 'center',
         fontSize: 15,
         color: 'white',
+        width: 350,
     },
-    text: {
+    redirect: {
         textAlign: 'right',
-        marginRight: '4%',
+        marginLeft: '50%',
         color: 'rgb(51, 51, 51)',
         marginTop: '1%',
         fontSize: 12,
+        width: '100%',
+        marginTop: '5%',
     },
     error: {
         color: 'red',
@@ -43,7 +46,19 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: 'white',
-
+        flex: 1,
+        width: '100vw',
+        padding: 30,
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    camera: { 
+        flex: 1,
+        margin: 30
+    },
+    img: {
+        width: '200px',
+        height: '200px',
     }
 })
 
@@ -82,9 +97,10 @@ class Register extends Component{
                 createdAt: Date.now(),
                 username: this.state.username,
                 bio: this.state.bio,
+                profilePicture: this.state.urlImg,
             })
-            .then(() => {this.props.navigation.navigate('Login')})
         })
+        .then(() => {this.props.navigation.navigate('Login')})
         .catch(err => {this.setState({error: err.message})})
     }
 
@@ -121,7 +137,13 @@ class Register extends Component{
                     onChangeText={ text => this.setState({bio:text}) }
                     value={this.state.bio} 
                 /> 
-                {/* <MyCamera onImageUpload={(url) => this.onImageUpload(url)}/> */}
+                {this.state.showCamera ? 
+                    <View style={styles.camera}>
+                        <MyCamera onImageUpload={(url) => this.onImageUpload(url)} style={styles.camera}/> 
+                    </View>
+                    :
+                    <Image style={styles.img} source={{uri: this.state.urlImg}}/>
+                }
 
                 <Text style={styles.error}>{this.state.error}</Text>
                 <Text style={styles.error}>{this.state.requiredField}</Text>
@@ -131,8 +153,8 @@ class Register extends Component{
                 </TouchableOpacity> 
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
-                    <Text style={styles.text}>Already have an account? Log in!</Text>
-                </TouchableOpacity>
+                    <Text style={styles.redirect}>Already have an account? Log in!</Text>
+                </TouchableOpacity> 
             </View>
         )
     }
