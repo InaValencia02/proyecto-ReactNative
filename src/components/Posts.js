@@ -67,7 +67,7 @@ class Posts extends Component {
                 
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
-                <Text style={styles.name}>
+                <Text style={styles.bio}>
                     {this.props.post.data.post}
                 </Text>
 

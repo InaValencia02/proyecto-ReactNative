@@ -10,6 +10,8 @@ const styles = StyleSheet.create({
         marginTop: '5%'
     },
     resultsContainer:{
+        display: 'flex',
+        flexDirection: 'row',
         flex: 1,
         padding: 30,
     },
@@ -34,6 +36,7 @@ class SearchResults extends Component {
         console.log(this.props.userInfo)
         return(
             <View style={styles.resultsContainer}>
+                
                 <Text style={styles.name}>{this.props.userInfo.data.username} </Text>
                 <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
                 <Text style={styles.bio}>{this.props.userInfo.data.bio}</Text>
