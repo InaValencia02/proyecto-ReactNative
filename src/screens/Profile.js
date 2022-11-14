@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, ActivityIndicator, TouchableOpacity, Text, FlatList, ScrollView } from 'react-native';
 import { View } from 'react-native-web';
 import {auth, db} from '../firebase/config';
+import Posts from '../components/Posts'
 
 class Profile extends Component{
 
@@ -15,37 +16,42 @@ class Profile extends Component{
     }
 
     componentDidMount() {
+
+        this.userInfo()
+
+        this.userPosts()
+        
+        console.log(this.state.info);
+
+    }
+
+    userInfo() {
+
         db.collection('users').where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
                 let info = [];
 
                 docs.forEach( doc => {
-                    info.push({
-                        data: doc.data(),
+                    this.setState({
+                        info: doc.data(),
                     })
 
-                this.setState({
-                    info: info,
-                })
                 })
             }
         )
 
-        this.userPosts()
-
-        console.log(this.state.posts);
 
     }
+
 
     userPosts() {
         db.collection('posts').where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
                 let posts = []
                 docs.forEach(doc => {
-                    posts.push({
-                        data: doc.data(),
-                        id: doc.createdAt
-                    })
+                    const data = doc.data();
+                    const id = doc.id;
+                    posts.push({data, id})
                 })
             this.setState({
                 posts: posts
@@ -68,15 +74,32 @@ class Profile extends Component{
             <View>
                 
                 <Text>
-                    Hola 
+                    @{this.state.info.username}
                 </Text>
+
+                <Text>
+                    {this.state.info.owner}
+                </Text>
+
+                <Text>
+                    {this.state.info.bio}
+                </Text>
+
+                <Text>
+                    Posts: {this.state.posts.length}
+                </Text>
+
+
+                <FlatList
+                        data={this.state.posts}
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={({ item }) => <Posts post={item}
+                        style={styles.flatlist} />}
+                    /> 
 
                 <TouchableOpacity onPress={() => this.logout()}>
                     <Text>Logout</Text>
                 </TouchableOpacity>
-
-
-            
 
             </View>
 
@@ -85,5 +108,9 @@ class Profile extends Component{
 
 
 }
+
+const styles = StyleSheet.create({ 
+
+})
 
 export default Profile

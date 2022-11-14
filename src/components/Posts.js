@@ -11,7 +11,8 @@ class Posts extends Component {
             liked: this.props.post.data.likes.includes(auth.currentUser.email),
             comment: '',
             emptyComment: '',
-            posts: []
+            posts: [],
+
         }
     }
 
@@ -58,13 +59,14 @@ class Posts extends Component {
 
     render() {
         console.log(this.props.post.data.urlImg)
+
         return (
             <View style={styles.postContainer}>
                 
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
                 <Text>
-                    {this.props.post.data.user}
+                    {this.props.post.data.owner}
                 </Text>
 
                 <Text>
