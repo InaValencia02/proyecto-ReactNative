@@ -16,10 +16,6 @@ class Posts extends Component {
         }
     }
 
-    componentDidMount() {
-        db.collection('posts').onSnapshot()
-    }
-
     like() {
         db.collection('posts')
             .doc(this.props.post.id)
@@ -69,20 +65,20 @@ class Posts extends Component {
                 
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
-                <Text>
+                <Text style={styles.bio}>
                     {this.props.post.data.post}
                 </Text>
 
-                <Text onPress={() =>this.goToProfile(this.props.post.data.owner)}>
+                <Text onPress={() =>this.goToProfile(this.props.post.data.owner)} style={styles.name}>
                     {this.props.post.data.owner}
                 </Text>
 
-                <Text>
+                <Text style={styles.name}>
                     Posted on: {this.props.post.data.createdAt}
                 </Text>
 
                 <View style={styles.likes}>
-                    <Text > {this.props.post.data.likes.length} people like this post</Text>
+                    <Text style={styles.like}> {this.props.post.data.likes.length} likes</Text>
                     {this.state.liked ?
                         <TouchableOpacity onPress={() => this.dislike()}>
                             <Text style={styles.like}> <AntDesign name="heart" size={24} color="red" /> </Text>
@@ -131,8 +127,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     img: {        
-        height: '200px',
-        width: '200px',
+        height: 150,
+        width: 150,
+        alignSelf: 'center',
+        marginTop: '10%'
     },
     field: {
         fontSize: 15,
@@ -141,7 +139,7 @@ const styles = StyleSheet.create({
         borderRadius: '30px',
         padding: '1%',
         color: 'rgb(153, 153, 153)',
-        marginTop: '5%'
+        marginTop: '5%',
     },
     button:{
         backgroundColor: 'rgb(255, 51, 0)',
@@ -159,6 +157,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
     },
+    name: {
+        fontSize: 20,
+    },
+    bio: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    like:{
+        fontSize: 20,
+    }
 });
 
 

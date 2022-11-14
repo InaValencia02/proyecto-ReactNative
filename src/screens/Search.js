@@ -77,15 +77,17 @@ class Search extends Component{
                     onChange={(event) => this.controlChanges(event)}
                 />
                
+               <View style= {styles.buttonsContainer}>
                 <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
                     <Text  style={styles.button}>Send</Text>
                 </TouchableOpacity>
-                
-                <Text style={styles.error}>{this.state.requiredField}</Text>
-
-                <TouchableOpacity onPress={() => this.clear()}>
+                 <TouchableOpacity onPress={() => this.clear()}>
                     <Text  style={styles.button}>Clear search</Text>
                 </TouchableOpacity>
+               </View>
+                
+                
+                <Text style={styles.error}>{this.state.requiredField}</Text>               
 
                 <Text>{this.state.usersErr}</Text>
 
@@ -115,15 +117,22 @@ const styles = StyleSheet.create({
         margin: '8%',
         marginBottom: '19%',
     },
+    buttonsContainer:{
+        display: 'flex',
+        flexDirection: 'row',    
+        padding: 30, 
+        justifyContent: 'space-around'               
+    },
     button:{
         backgroundColor: 'rgb(255, 51, 0)',
-        borderRadius: '30px',
-        marginTop: '5%',
-        margin: '2%',
-        padding: '1%',
+        borderRadius: 30,
+        marginTop: 5,
+        margin: 2,
+        padding: 7,
         textAlign: 'center',
         fontSize: 15,
         color: 'white',
+        flex: 1    
     },
     text: {
         textAlign: 'right',
