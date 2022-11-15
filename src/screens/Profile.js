@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ActivityIndicator, TouchableOpacity, Text, FlatList, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, ActivityIndicator, TouchableOpacity, Text, FlatList, ScrollView, TextInput , Image} from 'react-native';
 import { View } from 'react-native-web';
 import { auth, db } from '../firebase/config';
 import Posts from '../components/Posts'
@@ -171,9 +171,23 @@ class Profile extends Component {
         return (        
     
             <ScrollView>
+                    <View  style={styles.profileContainer}>
+
+
+
+                                <View>
+                                    <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
+                                </View>
+                   
+
+                            
+
+                    <View  style={styles.infoProfileContainer}>
+
                  {this.state.updateUserName ?
+
                            
-                           <View style={styles.updateContainer}>                             
+                        <View style={styles.updateContainer}>                             
                               <TextInput 
                               style={styles.field} 
                               keyboardType='default'
@@ -272,7 +286,10 @@ class Profile extends Component {
                     }
     
                 </View>
-    
+
+                </View>
+
+                </View>
     
                 <Text>
                     Posts: {this.state.posts.length}
@@ -306,6 +323,19 @@ class Profile extends Component {
 }
 
 const styles = StyleSheet.create({
+    img: {
+        height: 120,
+        width: 120,
+        marginTop: '10%',
+        borderRadius: '40px'
+    },
+    profileContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+
     updateContainer: {
         display :'flex',
         flexDirection: 'row',
