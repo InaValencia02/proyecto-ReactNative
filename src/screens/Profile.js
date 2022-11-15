@@ -11,8 +11,8 @@ import firebase from 'firebase';
 
 class Profile extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             userid: null,
             user: '',
@@ -24,15 +24,26 @@ class Profile extends Component {
             newusername:'',
             newbio: '',
             newPass: '',
-            oldPass: ''
+            oldPass: '',
+            otherUserID: '',
+            otherUser: '',
+            infoOtherUser: [],
+            otherUserPosts: []
         }
     }
 
     componentDidMount() {
 
-        this.userInfo()
 
-        this.userPosts()
+        if (this.props.route.params != undefined) {
+            this.otherUser()
+            this.otherUserPosts()
+        } else {
+            this.userInfo()
+            this.userPosts()
+        }
+
+
 
     }
 
@@ -50,9 +61,39 @@ class Profile extends Component {
         )
     }
 
+    otherUser() {
+        db.collection('users').where("owner", "==", this.props.route.params.user).onSnapshot(
+            docs => {
+
+                docs.forEach(doc => {
+                    this.setState({
+                        userid: doc.id,
+                        info: doc.data(),
+                    })
+                })
+            }
+        )
+    }
+
 
     userPosts() {
         db.collection('posts').where("owner", "==", auth.currentUser.email).onSnapshot(
+            docs => {
+                let posts = []
+                docs.forEach(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    posts.push({ data, id })
+                })
+                this.setState({
+                    posts: posts
+                })
+            }
+        )
+    }
+
+    otherUserPosts() {
+        db.collection('posts').where("owner", "==", this.props.route.params.user).onSnapshot(
             docs => {
                 let posts = []
                 docs.forEach(doc => {
@@ -99,135 +140,163 @@ class Profile extends Component {
 
     render() {
 
+    if (this.props.route.params != undefined) {
+        return (        
+    
 
+            <ScrollView>
+    
+                <Text>
+                    {this.props.route.params.user}
+                </Text>
 
+                <Text>
+                    Posts: {this.state.posts.length}
+                </Text>
     
     
-            return (        
-
-                <ScrollView>
-                     {this.state.updateUserName ?
-                               
-                               <View style={styles.updateContainer}>                             
-                                  <TextInput 
-                                  style={styles.field} 
-                                  keyboardType='default'
-                                    placeholder='New user name'
-                                    onChangeText={(text) => { this.setState({ newusername: text }) }}
-                                    value={this.state.newusername}
-                                    
-                                     />
-                                  <TouchableOpacity onPress={() => this.updateUserName()} >
-                                      <Text style={styles.button} >Update</Text>
-                                  </TouchableOpacity>
-                              </View>   
-                              :
-      
-                              <View  style={styles.updateContainer}>
-                              <Text style={styles.itemFirst}>
-                                  @{this.state.info.username}
-                              </Text>
-                              <TouchableOpacity onPress={() => this.setState({updateUserName: true})} style={styles.itemSecond}>
-                                  <EvilIcons name="pencil" size={24} color="black" />
+                <FlatList
+                    data={this.state.posts}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => <Posts post={item}
+                        style={styles.flatlist} />}
+                />
+    
+            </ScrollView>
+    
+        )
+        
+    }
+     else {
+        return (        
+    
+            <ScrollView>
+                 {this.state.updateUserName ?
+                           
+                           <View style={styles.updateContainer}>                             
+                              <TextInput 
+                              style={styles.field} 
+                              keyboardType='default'
+                                placeholder='New user name'
+                                onChangeText={(text) => { this.setState({ newusername: text }) }}
+                                value={this.state.newusername}
+                                
+                                 />
+                              <TouchableOpacity onPress={() => this.updateUserName()} >
+                                  <Text style={styles.button} >Update</Text>
                               </TouchableOpacity>
-                          </View>                           
-      
-                          }
+                          </View>   
+                          :
     
-                    
-                        {this.state.updatePass ?
-                               
-                               <View >  
-                                <TextInput 
-                                        style={styles.field} 
-                                        keyboardType='default'
-                                        placeholder='Old Password'
-                                        onChangeText={(text) => { this.setState({ oldPass: text }) }}
-                                        value={this.state.oldPass}
-                                        
-                                        />                           
-                                  <TextInput 
+                          <View  style={styles.updateContainer}>
+                          <Text style={styles.itemFirst}>
+                              @{this.state.info.username}
+                          </Text>
+                          <TouchableOpacity onPress={() => this.setState({updateUserName: true})} style={styles.itemSecond}>
+                              <EvilIcons name="pencil" size={24} color="black" />
+                          </TouchableOpacity>
+                      </View>                           
+    
+                      }
+    
+                
+                    {this.state.updatePass ?
+                           
+                           <View >  
+                            <TextInput 
                                     style={styles.field} 
                                     keyboardType='default'
-                                    placeholder='New Password'
-                                    onChangeText={(text) => { this.setState({ newPass: text }) }}
-                                    value={this.state.newPass}
+                                    placeholder='Old Password'
+                                    onChangeText={(text) => { this.setState({ oldPass: text }) }}
+                                    value={this.state.oldPass}
                                     
-                                     />
-                                  <TouchableOpacity onPress={() => this.updatePassword()} >
-                                      <Text style={styles.button} >Update</Text>
-                                  </TouchableOpacity>
-                              </View>   
-                              :
-      
-                              <View  style={styles.updateContainer} >
-                              <Text style={styles.itemFirst}>
-                                  {this.state.info.owner}
-                              </Text>
-                              <TouchableOpacity onPress={() =>  this.setState({updatePass: true})} style={styles.itemSecond}>
-                                  <AntDesign name="setting" size={24} color="black" />
-                              </TouchableOpacity>
-          
-                                </View>
-                                                  
-      
-                          }
-                   
-    
-                    <View>
-    
-    
-                        {this.state.updateBio ?
-                               
-                             <View  style={styles.item}>                             
-                                <TextInput
+                                    />                           
+                              <TextInput 
                                 style={styles.field} 
                                 keyboardType='default'
-                                placeholder='New bio'
-                                onChangeText={(text) => { this.setState({ newbio: text }) }}
-                                value={this.state.newbio}
-                               
-                                />
-                                <TouchableOpacity onPress={() => this.updateBio()} >
-                                    <Text style={styles.button} >Update</Text>
-                                </TouchableOpacity>
-                            </View>   
-                            :
+                                placeholder='New Password'
+                                onChangeText={(text) => { this.setState({ newPass: text }) }}
+                                value={this.state.newPass}
+                                
+                                 />
+                              <TouchableOpacity onPress={() => this.updatePassword()} >
+                                  <Text style={styles.button} >Update</Text>
+                              </TouchableOpacity>
+                          </View>   
+                          :
     
-                            <View  style={styles.updateContainer}>
-                                <Text style={styles.itemFirst}>
-                                {this.state.info.bio}
-                                 </Text>
-                                <TouchableOpacity onPress={() => this.setState({updateBio: true})} style={styles.itemSecond}>
-                                <EvilIcons name="pencil" size={24} color="black" />
-                                </TouchableOpacity>
+                          <View  style={styles.updateContainer} >
+                          <Text style={styles.itemFirst}>
+                              {this.state.info.owner}
+                          </Text>
+                          <TouchableOpacity onPress={() =>  this.setState({updatePass: true})} style={styles.itemSecond}>
+                              <AntDesign name="setting" size={24} color="black" />
+                          </TouchableOpacity>
+      
+                            </View>
+                                              
     
-                                </View>                            
+                      }
+               
     
-                        }
-    
-                    </View>
-    
-    
-                    <Text>
-                        Posts: {this.state.posts.length}
-                    </Text>
+                <View>
     
     
-                    <FlatList
-                        data={this.state.posts}
-                        keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Posts post={item}
-                            style={styles.flatlist} />}
-                    />
+                    {this.state.updateBio ?
+                           
+                         <View  style={styles.item}>                             
+                            <TextInput
+                            style={styles.field} 
+                            keyboardType='default'
+                            placeholder='New bio'
+                            onChangeText={(text) => { this.setState({ newbio: text }) }}
+                            value={this.state.newbio}
+                           
+                            />
+                            <TouchableOpacity onPress={() => this.updateBio()} >
+                                <Text style={styles.button} >Update</Text>
+                            </TouchableOpacity>
+                        </View>   
+                        :
     
-                    <TouchableOpacity onPress={() => this.logout()}>
-                        <Text style={styles.button}>Logout</Text>
-                    </TouchableOpacity>
+                        <View  style={styles.updateContainer}>
+                            <Text style={styles.itemFirst}>
+                            {this.state.info.bio}
+                             </Text>
+                            <TouchableOpacity onPress={() => this.setState({updateBio: true})} style={styles.itemSecond}>
+                            <EvilIcons name="pencil" size={24} color="black" />
+                            </TouchableOpacity>
     
-                </ScrollView>
+                            </View>                            
     
-            )
+                    }
+    
+                </View>
+    
+    
+                <Text>
+                    Posts: {this.state.posts.length}
+                </Text>
+    
+    
+                <FlatList
+                    data={this.state.posts}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => <Posts post={item}
+                        style={styles.flatlist} />}
+                />
+    
+                <TouchableOpacity onPress={() => this.logout()}>
+                    <Text style={styles.button}>Logout</Text>
+                </TouchableOpacity>
+    
+            </ScrollView>
+    
+        )
+     }
+
+    
+    
 
 
        ;
