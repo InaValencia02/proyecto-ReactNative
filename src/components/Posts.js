@@ -57,7 +57,9 @@ class Posts extends Component {
         this.props.navigation.navigate("OtherProfile", {user: user})
     }    
 
-
+    deletePost(){
+        db.collection('posts').doc(this.props.post.id).delete()
+    }
 
     render() {
         console.log(this.props.post.data.urlImg)
@@ -125,6 +127,16 @@ class Posts extends Component {
                     <TouchableOpacity onPress={() => this.onSubmit()}>
                         <Text style={styles.button}>Add comment</Text>
                     </TouchableOpacity>
+
+                    {
+                        this.props.post.data.owner == auth.currentUser.email ?
+                        <TouchableOpacity onPress={() => this.deletePost()}>
+                            <Text style={styles.button}>Delete post</Text>
+                        </TouchableOpacity>
+                        :
+                        <></>
+                    }
+                    
                 </View>
 
             </View>

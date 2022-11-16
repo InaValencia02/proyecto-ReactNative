@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ActivityIndicator, TouchableOpacity, Text, FlatList, ScrollView, TextInput , Image} from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, FlatList, ScrollView, TextInput , Image} from 'react-native';
 import { View } from 'react-native-web';
 import { auth, db } from '../firebase/config';
 import Posts from '../components/Posts'
@@ -28,7 +28,8 @@ class Profile extends Component {
             otherUserID: '',
             otherUser: '',
             infoOtherUser: [],
-            otherUserPosts: []
+            otherUserPosts: [],
+            error: '',
         }
     }
 
@@ -75,7 +76,6 @@ class Profile extends Component {
         )
     }
 
-
     userPosts() {
         db.collection('posts').where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
@@ -114,12 +114,18 @@ class Profile extends Component {
     }
 
     updateUserName() {
+        this.state.newusername == ''?
+        this.setState({error: 'You cannot send an empty form'})
+        :
         db.collection('users').doc(this.state.userid).update({
             username: this.state.newusername,
         }).then (() => this.setState({updateUserName: false})) 
         
     }
     updateBio() {
+        this.state.newbio == ''?
+        this.setState({error: 'You cannot send an empty form'})
+        :
         db.collection('users').doc(this.state.userid).update({
             bio: this.state.newbio
         }).then(() => this.setState({updateBio: false}))
@@ -127,16 +133,24 @@ class Profile extends Component {
     }
 
     updatePassword( ) {
-        const emailCred  = firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, this.state.oldPass);
+        if(this.state.newPass == ''){
+            this.setState({error: 'You cannot send an empty form'})
+        }else{
+            const emailCred  = firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, this.state.oldPass);
             auth.currentUser.reauthenticateWithCredential(emailCred)
             .then(() => {                    
               return auth.currentUser.updatePassword(this.state.newPass)
                         .then (this.setState({updatePass: false}));
             })
             .catch(error => {console.log(error);});
+        }
+       
            
     }
 
+    deletePost(){
+        db.collection('posts').doc(this.props.post.id).delete()
+    }
 
     render() {
 
@@ -149,18 +163,16 @@ class Profile extends Component {
                 <Text>
                     {this.props.route.params.user}
                 </Text>
-
                 <Text>
                     Posts: {this.state.posts.length}
                 </Text>
-    
-    
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => <Posts post={item}
-                        style={styles.flatlist} />}
+                    style={styles.flatlist} />}
                 />
+                
     
             </ScrollView>
     
@@ -185,35 +197,31 @@ class Profile extends Component {
                     <View  style={styles.infoProfileContainer}>
 
                  {this.state.updateUserName ?
-
-                           
-                        <View style={styles.updateContainer}>                             
-                              <TextInput 
-                              style={styles.field} 
-                              keyboardType='default'
-                                placeholder='New user name'
-                                onChangeText={(text) => { this.setState({ newusername: text }) }}
-                                value={this.state.newusername}
-                                
-                                 />
-                              <TouchableOpacity onPress={() => this.updateUserName()} >
-                                  <Text style={styles.button} >Update</Text>
-                              </TouchableOpacity>
-                          </View>   
-                          :
+                            <View style={styles.updateContainer}>                             
+                                <TextInput 
+                                style={styles.field} 
+                                keyboardType='default'
+                                    placeholder='New user name'
+                                    onChangeText={(text) => { this.setState({ newusername: text }) }}
+                                    value={this.state.newusername}
+                                    
+                                    />
+                                <TouchableOpacity onPress={() => this.updateUserName()} >
+                                    <Text style={styles.button} >Update</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.error}>{this.state.error}</Text>
+                            </View>   
+                            :
+                            <View  style={styles.updateContainer}>
+                                <Text style={styles.itemFirst}>
+                                    @{this.state.info.username}
+                                </Text>
+                                <TouchableOpacity onPress={() => this.setState({updateUserName: true})} style={styles.itemSecond}>
+                                    <EvilIcons name="pencil" size={24} color="black" />
+                                </TouchableOpacity>
+                            </View>
+                    }
     
-                          <View  style={styles.updateContainer}>
-                          <Text style={styles.itemFirst}>
-                              @{this.state.info.username}
-                          </Text>
-                          <TouchableOpacity onPress={() => this.setState({updateUserName: true})} style={styles.itemSecond}>
-                              <EvilIcons name="pencil" size={24} color="black" />
-                          </TouchableOpacity>
-                      </View>                           
-    
-                      }
-    
-                
                     {this.state.updatePass ?
                            
                            <View >  
@@ -233,18 +241,18 @@ class Profile extends Component {
                                 value={this.state.newPass}
                                 
                                  />
+                            <Text style={styles.error}>{this.state.error}</Text>
                               <TouchableOpacity onPress={() => this.updatePassword()} >
                                   <Text style={styles.button} >Update</Text>
                               </TouchableOpacity>
                           </View>   
                           :
-    
                           <View  style={styles.updateContainer} >
                           <Text style={styles.itemFirst}>
                               {this.state.info.owner}
                           </Text>
                           <TouchableOpacity onPress={() =>  this.setState({updatePass: true})} style={styles.itemSecond}>
-                              <AntDesign name="setting" size={24} color="black" />
+                               <AntDesign name="setting" size={24} color="black" />
                           </TouchableOpacity>
       
                             </View>
@@ -267,6 +275,7 @@ class Profile extends Component {
                             value={this.state.newbio}
                            
                             />
+                            <Text style={styles.error}>{this.state.error}</Text>
                             <TouchableOpacity onPress={() => this.updateBio()} >
                                 <Text style={styles.button} >Update</Text>
                             </TouchableOpacity>
@@ -304,7 +313,7 @@ class Profile extends Component {
                 />
     
                 <TouchableOpacity onPress={() => this.logout()}>
-                    <Text style={styles.button}>Logout</Text>
+                    <Text style={styles.logout}>Logout</Text>
                 </TouchableOpacity>
     
             </ScrollView>
@@ -355,9 +364,10 @@ const styles = StyleSheet.create({
         margin: '2%',
         padding: '1%',
         textAlign: 'center',
-        fontSize: 15,
+        fontSize: 10,
         color: 'white',
-        flex: 2
+        flex: 2,
+        width: 50,
     },
     field: {
         fontSize: 15,
@@ -367,6 +377,27 @@ const styles = StyleSheet.create({
         padding: '1%',
         color: 'rgb(153, 153, 153)',
         flex: 2
+    },
+    error: {
+        color: 'red',
+        marginTop: '1%',
+        textAlign: 'center',
+        fontSize: 10,
+    },
+    logout: {
+        backgroundColor: 'black',
+        borderRadius: 5,
+        marginTop: '5%',
+        margin: '2%',
+        padding: '1%',
+        marginLeft: '40%',
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'white',
+        flex: 2,
+        width: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 
 

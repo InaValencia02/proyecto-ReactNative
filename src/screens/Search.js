@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
+import SearchResults from '../components/SearchResults';
 import { db} from '../firebase/config';
 
 class Search extends Component{
@@ -94,7 +95,7 @@ class Search extends Component{
                 <FlatList 
                         data={this.state.filteredUsers}
                         keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Text>{item.data.username}</Text> }
+                        renderItem={({ item }) => <SearchResults userInfo={item}/> }
                     />
                 
             </View>
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
         color: 'white',
-        flex: 1    
+        flex: 1,  
     },
     text: {
         textAlign: 'right',

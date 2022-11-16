@@ -5,9 +5,10 @@ const styles = StyleSheet.create({
     image: {
         height: 70,
         width: 100,  
-        borderRadius:100,      
+        borderRadius:110,      
         alignSelf: 'center',       
-        flex: 1
+        flex: 1,
+        marginRight: 10,
     },
     resultsContainer:{
         display: 'flex',
@@ -46,7 +47,7 @@ class SearchResults extends Component {
         console.log(this.props.userInfo)
         return(
             <View style={styles.resultsContainer}>
-                 <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
+                <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
                 <View style= {styles.info}>
                 <Text style={styles.name} onPress={() =>this.goToProfile(this.props.userInfo.data.owner)}>
                     {this.props.userInfo.data.username} 
