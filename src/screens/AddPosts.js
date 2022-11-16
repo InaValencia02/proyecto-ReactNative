@@ -48,7 +48,8 @@ class AddPosts extends Component {
                     ? <MyCamera onImageUpload={(url) => this.onImageUpload(url)} style={styles.camera}/> 
                     : <>
                     <Image style={styles.img} source={{uri: this.state.urlImg}}/> 
-
+                    
+                    <Text>Add a new post</Text>
                     <TextInput 
                     style={styles.postInput} 
                     placeholder="Describe your food" 
