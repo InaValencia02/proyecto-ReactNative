@@ -52,7 +52,7 @@ class AddPosts extends Component {
                     <Text>Add a new post</Text>
                     <TextInput 
                     style={styles.postInput} 
-                    placeholder="Describe your food" 
+                    placeholder="What are you thinking?" 
                     onChangeText={ text => this.setState({ post: text }) }
                     value={this.state.post}
                     />

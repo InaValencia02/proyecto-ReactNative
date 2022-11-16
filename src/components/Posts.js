@@ -57,8 +57,20 @@ class Posts extends Component {
         this.props.navigation.navigate("OtherProfile", {user: user})
     }    
 
+    deletePost(){
+        db.collection('posts').doc(this.props.post.id).delete()
+    }
+
     render() {
         console.log(this.props.post.data.urlImg)
+
+        const date = this.props.post.data.createdAt
+
+        const d = Date(date);
+
+        const fecha = d.toString()
+
+        const fechaLimpia = fecha.replace('','')
 
         return (
             <View style={styles.containerHome}>      
@@ -74,7 +86,7 @@ class Posts extends Component {
                 </Text>
 
                 <Text style={styles.name}>
-                    Posted on: {this.props.post.data.createdAt}
+                    Posted on: {fecha}
                 </Text>
 
                 <View style={styles.likes}>
@@ -115,6 +127,16 @@ class Posts extends Component {
                     <TouchableOpacity onPress={() => this.onSubmit()}>
                         <Text style={styles.button}>Add comment</Text>
                     </TouchableOpacity>
+
+                    {
+                        this.props.post.data.owner == auth.currentUser.email ?
+                        <TouchableOpacity onPress={() => this.deletePost()}>
+                            <Text style={styles.button}>Delete post</Text>
+                        </TouchableOpacity>
+                        :
+                        <></>
+                    }
+                    
                 </View>
 
             </View>
@@ -127,8 +149,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     img: {        
-        height: 150,
-        width: 150,
+        height: 250,
+        width: 350,
         alignSelf: 'center',
         marginTop: '10%'
     },
