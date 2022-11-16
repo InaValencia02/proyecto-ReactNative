@@ -158,7 +158,7 @@ class Profile extends Component {
         return (        
     
 
-            <ScrollView>
+            <ScrollView style={styles.containerHome}>
     
                 <Text>
                     {this.props.route.params.user}
@@ -182,7 +182,7 @@ class Profile extends Component {
      else {
         return (        
     
-            <ScrollView>
+            <ScrollView style={styles.containerHome}>
                     <View  style={styles.profileContainer}>
 
 
@@ -398,7 +398,16 @@ const styles = StyleSheet.create({
         width: 100,
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    containerHome: {
+        alignContent: 'center',  
+        textAlign: 'center',
+        backgroundColor: 'white'
+    },
+    flatlist: {
+        flex: 1,
+        width: '100%'
+    },
 
 
 })

@@ -68,7 +68,7 @@ class Search extends Component{
     render(){
         console.log(this.state.dataSearchResults)
         return(
-            <View>
+            <View style={styles.container}>
                 <Text style={styles.title}>Search for anyone</Text>
                 <TextInput style={styles.field} 
                      keyboardType='default'
@@ -93,6 +93,7 @@ class Search extends Component{
                 <Text>{this.state.usersErr}</Text>
 
                 <FlatList 
+                        style={styles.flatlist}
                         data={this.state.filteredUsers}
                         keyExtractor={item => item.id.toString()}
                         renderItem={({ item }) => <SearchResults userInfo={item}/> }
@@ -148,6 +149,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
     },    
+    flatlist: {
+        flex: 1,
+        width: '100%'
+    },
+    container:{
+        backgroundColor: 'white',
+        flex: 1
+    }
 })
 
 

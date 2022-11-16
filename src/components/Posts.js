@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     },
     like:{
         fontSize: 20,
-    }
+    },
 });
 
 
