@@ -131,7 +131,7 @@ class Posts extends Component {
                     {
                         this.props.post.data.owner == auth.currentUser.email ?
                         <TouchableOpacity onPress={() => this.deletePost()}>
-                            <Text style={styles.button}>Delete post</Text>
+                            <Text style={styles.deletebutton}>Delete post</Text>
                         </TouchableOpacity>
                         :
                         <></>
@@ -189,6 +189,16 @@ const styles = StyleSheet.create({
     like:{
         fontSize: 20,
     },
+    deletebutton: {
+        backgroundColor: 'rgb(179, 0, 0)',
+        borderRadius: '30px',
+        marginTop: '1%',
+        margin: '2%',
+        padding: '1%',
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'white',
+    }
 });
 
 
