@@ -7,8 +7,6 @@ import { EvilIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
 
-
-
 class Profile extends Component {
 
     constructor(props) {
@@ -163,6 +161,11 @@ class Profile extends Component {
                 <Text>
                     {this.props.route.params.user}
                 </Text>
+
+                <Text>
+                    {this.state.info.bio}
+                </Text>
+
                 <Text>
                     Posts: {this.state.posts.length}
                 </Text>
@@ -304,13 +307,22 @@ class Profile extends Component {
                     Posts: {this.state.posts.length}
                 </Text>
     
-    
-                <FlatList
+                    {this.state.posts.length == 0 ? 
+                    
+                    <Text style={styles.noPosts}> No posts yet </Text>    
+
+                    :
+
+                    <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => <Posts post={item}
                         style={styles.flatlist} />}
                 />
+
+                }
+                
+               
     
                 <TouchableOpacity onPress={() => this.logout()}>
                     <Text style={styles.logout}>Logout</Text>
@@ -325,7 +337,7 @@ class Profile extends Component {
     
 
 
-       ;
+       
     }
 
 
@@ -408,6 +420,10 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%'
     },
+    noPosts : {
+        marginTop: '20px',
+        textAlign: 'center'
+    }
 
 
 })

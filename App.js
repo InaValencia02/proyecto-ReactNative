@@ -37,6 +37,8 @@ export default function App() {
         <Stack.Screen name='AppMainWindow' component={AppMainWindow} options={{headerShown: false}}/>
         <Stack.Screen name='Home' component={Home} options={{headerShown:false}} />
         <Stack.Screen name='OtherProfile' component={Profile}/>
+        <Stack.Screen name='Profile' component={Profile}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
