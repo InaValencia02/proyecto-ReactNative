@@ -166,7 +166,7 @@ class Profile extends Component {
                     <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
                 </View>
                 :
-                ''
+                <Image style={styles.img} source={require('../../assets/nophoto.jpg')}/>
                 }
 
                 <View  style={styles.infoProfileContainer}>
@@ -214,7 +214,7 @@ class Profile extends Component {
                             <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
                         </View>
                         :
-                        ''
+                        <Image style={styles.img} source={require('../../assets/nophoto.jpg')}/>
                     }
                    
 
