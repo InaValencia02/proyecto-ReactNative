@@ -55,11 +55,11 @@ const styles = StyleSheet.create({
     containerHome: {
         alignContent: 'center',  
         textAlign: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'F4F4F1',
+        pading : 20,
     },
-    flatlist: {
-        flex: 1,
-        width: '100%'
+    flatlist: {     
+       
     },
     loader:{
         marginTop: 100

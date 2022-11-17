@@ -73,38 +73,44 @@ class Posts extends Component {
         const fechaLimpia = fecha.replace('','')
 
         return (
-            <View style={styles.containerHome}>      
+            <View style={styles.postContainer}>      
                 
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
-                <Text style={styles.bio}>
-                    {this.props.post.data.post}
-                </Text>
-
+             
                 <Text onPress={() =>this.goToProfile(this.props.post.data.owner)} style={styles.name}>
                     {this.props.post.data.owner}
                 </Text>
 
-                <Text style={styles.name}>
+                <Text style={styles.bio}>
+                {this.props.post.data.post}
+                </Text>
+
+                <Text style={styles.postedOn}>
                     Posted on: {fecha}
                 </Text>
 
-                <View style={styles.likes}>
-                    <Text style={styles.like}> {this.props.post.data.likes.length} likes</Text>
-                    {this.state.liked ?
-                        <TouchableOpacity onPress={() => this.dislike()}>
-                            <Text style={styles.like}> <AntDesign name="heart" size={24} color="red" /> </Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={() => this.like()}>
-                            <Text style={styles.like}> <AntDesign name="hearto" size={24} color="black" /> </Text>
-                        </TouchableOpacity>
-                    }
+                <View style= {styles.likesContainer}>
+                    
+                    <View style={styles.like}>
+                        
+                        {this.state.liked ?
+                            <TouchableOpacity onPress={() => this.dislike()}>
+                                <Text > <AntDesign name="heart" size={24} color="red" /> </Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => this.like()}>
+                                <Text > <AntDesign name="hearto" size={24} color="black" /> </Text>
+                            </TouchableOpacity>
+                        }
+                    </View>
+                    <Text style={styles.likes}> {this.props.post.data.likes.length} likes</Text>
                 </View>
+                
 
                 <View style={styles.comments}>
                     { this.props.post.data.comments.length === 0?
-                        <Text>There aren't any comments yet</Text>
+                        <Text style={styles.comments}>There aren't any comments yet</Text>
                         :
                         <FlatList 
                             data={this.props.post.data.comments.sort((a, b) => a.createdAt - b.createdAt)}
@@ -145,12 +151,19 @@ class Posts extends Component {
 }
 
 const styles = StyleSheet.create({
-    postContainer: {
-        flex: 1
+    postContainer: {              
+        borderColor: '#E8E8E4',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        borderWidth: 1,
+        margin: 10,
+        textAlign: 'left',
+        padding: 10
+  
     },
     img: {        
-        height: 250,
-        width: 350,
+        height: 200,
+        width: 250,
         alignSelf: 'center',
         marginTop: '10%'
     },
@@ -179,15 +192,38 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
     },
+    
     name: {
         fontSize: 20,
+        fontWeight: 'bold', 
+        margin: 5      
     },
     bio: {
         fontSize: 20,
-        fontWeight: 'bold',
+        margin: 5
     },
-    like:{
+    postedOn: {
+        color: '#999994',
+        fontSize: 18,
+        margin: 5
+    },
+    likesContainer:{
+        display :'flex',
+        flexDirection: 'row',      
+        margin: 10
+    },
+    like:{        
+        flex:1
+    },
+    likes: {
+        flex: 3,
         fontSize: 20,
+        alignSelf: 'flex-start'
+    },    
+    comments: {
+        fontSize: 15,
+        alignSelf: 'center',
+        margin: 10
     },
     deletebutton: {
         backgroundColor: 'rgb(179, 0, 0)',
