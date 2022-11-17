@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList, Image } from 'react-native';
 import { auth, db } from '../firebase/config';
-import { AntDesign} from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
 
 class Posts extends Component {
@@ -42,22 +42,22 @@ class Posts extends Component {
             .catch(e => console.log(e))
     }
 
-    onSubmit(){
-        this.state.comment == ''?
-        this.setState({emptyComment: 'You need to write something'})
-        :
-        db.collection('posts')
-            .doc(this.props.post.id)
-            .update({
-                comments: firebase.firestore.FieldValue.arrayUnion({owner: auth.currentUser.email, text: this.state.comment, author: auth.currentUser.email, createdAt: Date.now()})
-            })
-            .then(this.setState({comment: ''}))
-            .catch(e => console.log('Error' + e))
+    onSubmit() {
+        this.state.comment == '' ?
+            this.setState({ emptyComment: 'You need to write something' })
+            :
+            db.collection('posts')
+                .doc(this.props.post.id)
+                .update({
+                    comments: firebase.firestore.FieldValue.arrayUnion({ owner: auth.currentUser.email, text: this.state.comment, author: auth.currentUser.email, createdAt: Date.now() })
+                })
+                .then(this.setState({ comment: '' }))
+                .catch(e => console.log('Error' + e))
     }
 
     goToProfile(user) {
-        this.props.navigation.navigate("OtherProfile", {user: user})
-    }    
+        this.props.navigation.navigate("OtherProfile", { user: user })
+    }
 
     deleteMessage(){
         this.setState({deleteMessage: 'Are you sure you want to delete this post?', delete: true})
@@ -72,7 +72,6 @@ class Posts extends Component {
     }
 
     render() {
-        console.log(this.props.post.data.urlImg)
 
         const date = this.props.post.data.createdAt
 
@@ -81,43 +80,43 @@ class Posts extends Component {
         const fecha = d.toString()
 
         return (
-            <View style={styles.postContainer}>      
-                
-                <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
+            <View style={styles.postContainer}>
 
-             
 
-                {this.props.post.data.owner == auth.currentUser.email 
-                
-                ?
-                <Text onPress={() =>this.props.navigation.navigate("Profile")} style={styles.name}>
-                    {this.props.post.data.owner}
-                </Text>
+                <View style={styles.deleteContainer}>
+                    {this.props.post.data.owner == auth.currentUser.email
+                        ?
+                        <Text onPress={() => this.props.navigation.navigate("Profile")} style={styles.nameOne}>
+                            {this.props.post.data.owner}
+                        </Text>
+                        :
+                        <Text onPress={() => this.goToProfile(this.props.post.data.owner)} style={styles.nameOne}>
+                            {this.props.post.data.owner}
+                        </Text>
+                    }
 
-                :
+                    {
+                        this.props.post.data.owner == auth.currentUser.email ?
+                            <TouchableOpacity onPress={() => this.deletePost()}>
+                                <Text style={styles.deletebutton}>Delete post</Text>
+                            </TouchableOpacity>
+                            :
+                            <></>
+                    }
 
-                <Text onPress={() =>this.goToProfile(this.props.post.data.owner)} style={styles.name}>
-                    {this.props.post.data.owner}
-                </Text>
+                </View>
 
-                
-            
-            
-            }
-                
 
+                <Image style={styles.img} source={{ uri: this.props.post.data.urlImg }} />
+               
                 <Text style={styles.bio}>
-                {this.props.post.data.post}
-                </Text>
+                    {this.props.post.data.post}
+                </Text>                
 
-                <Text style={styles.postedOn}>
-                    Posted on: {fecha}
-                </Text>
+                <View style={styles.likesContainer}>
 
-                <View style= {styles.likesContainer}>
-                    
                     <View style={styles.like}>
-                        
+
                         {this.state.liked ?
                             <TouchableOpacity onPress={() => this.dislike()}>
                                 <Text > <AntDesign name="heart" size={24} color="red" /> </Text>
@@ -130,30 +129,31 @@ class Posts extends Component {
                     </View>
                     <Text style={styles.likes}> {this.props.post.data.likes.length} likes</Text>
                 </View>
-                
+
 
                 <View style={styles.comments}>
-                    { this.props.post.data.comments.length === 0?
+                    {this.props.post.data.comments.length === 0 ?
                         <Text style={styles.comments}>There aren't any comments yet</Text>
                         :
-                        <FlatList 
+                        <FlatList
                             data={this.props.post.data.comments.sort((a, b) => a.createdAt - b.createdAt)}
-                            keyExtractor={item => { 
-                               
-                                return item.createdAt.toString()}}
+                            keyExtractor={item => {
+
+                                return item.createdAt.toString()
+                            }}
                             renderItem={({ item }) => <Text>{item.author}: {item.text}</Text>}
                         />
-                }
-                    <TextInput 
+                    }
+                    <TextInput
                         keyboardType='default'
                         placeholder='   Write a comment'
-                        onChangeText={ text => this.setState({comment:text}) }
-                        value={this.state.comment} 
+                        onChangeText={text => this.setState({ comment: text })}
+                        value={this.state.comment}
                         style={styles.field}
                     />
 
                     <Text style={styles.error}>{this.state.emptyComment}</Text>
-                    
+
                     <TouchableOpacity onPress={() => this.onSubmit()}>
                         <Text style={styles.button}>Add comment</Text>
                     </TouchableOpacity>
@@ -183,6 +183,10 @@ class Posts extends Component {
                         <></>
                     }
                     
+                    <Text style={styles.postedOn}>
+                    Posted on {fecha}
+                    </Text>
+
                 </View>
 
             </View>
@@ -191,7 +195,7 @@ class Posts extends Component {
 }
 
 const styles = StyleSheet.create({
-    postContainer: {              
+    postContainer: {
         borderColor: '#E8E8E4',
         backgroundColor: 'white',
         borderRadius: 10,
@@ -199,9 +203,9 @@ const styles = StyleSheet.create({
         margin: 10,
         textAlign: 'left',
         padding: 10
-  
+
     },
-    img: {        
+    img: {
         height: 200,
         width: 250,
         alignSelf: 'center',
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
         color: 'rgb(153, 153, 153)',
         marginTop: '5%',
     },
-    button:{
+    button: {
         backgroundColor: 'rgb(255, 51, 0)',
         borderRadius: '30px',
         marginTop: '1%',
@@ -232,45 +236,50 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
     },
-    
-    name: {
-        fontSize: 20,
-        fontWeight: 'bold', 
-        margin: 5      
-    },
+    nameOne: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        margin: 5
+    },    
     bio: {
         fontSize: 20,
-        margin: 5
+        margin: 10
     },
     postedOn: {
         color: '#999994',
-        fontSize: 18,
+        fontSize: 15,
         margin: 5
     },
-    likesContainer:{
-        display :'flex',
-        flexDirection: 'row',      
+    likesContainer: {
+        display: 'flex',
+        flexDirection: 'row',
         margin: 10
     },
-    like:{        
-        flex:1
+    like: {
+        flex: 1
     },
     likes: {
         flex: 3,
-        fontSize: 20,
+        fontSize: 15,
         alignSelf: 'flex-start'
-    },    
+    },
     comments: {
         fontSize: 15,
         alignSelf: 'center',
         margin: 10
+    },    
+    deleteContainer:{
+        display: 'flex',
+        flexDirection: 'row',       
+        alignItems: 'center',  
+        justifyContent: 'space-between'    
     },
     deletebutton: {
         backgroundColor: 'rgb(179, 0, 0)',
-        borderRadius: '30px',
-        marginTop: '1%',
-        margin: '2%',
-        padding: '1%',
+        borderRadius: 25,
+        marginTop: 1,
+        margin: 4,
+        padding: 3,
         textAlign: 'center',
         fontSize: 15,
         color: 'white',

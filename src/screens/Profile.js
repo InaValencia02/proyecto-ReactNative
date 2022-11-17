@@ -6,9 +6,7 @@ import Posts from '../components/Posts'
 import { EvilIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
-
 class Profile extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -30,10 +28,7 @@ class Profile extends Component {
             error: '',
         }
     }
-
     componentDidMount() {
-
-
         if (this.props.route.params != undefined) {
             this.otherUser()
             this.otherUserPosts()
@@ -41,15 +36,10 @@ class Profile extends Component {
             this.userInfo()
             this.userPosts()
         }
-
-
-
     }
-
     userInfo() {
         db.collection('users').where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
-
                 docs.forEach(doc => {
                     this.setState({
                         userid: doc.id,
@@ -59,11 +49,9 @@ class Profile extends Component {
             }
         )
     }
-
     otherUser() {
         db.collection('users').where("owner", "==", this.props.route.params.user).onSnapshot(
             docs => {
-
                 docs.forEach(doc => {
                     this.setState({
                         userid: doc.id,
@@ -73,7 +61,6 @@ class Profile extends Component {
             }
         )
     }
-
     userPosts() {
         db.collection('posts').where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
@@ -89,7 +76,6 @@ class Profile extends Component {
             }
         )
     }
-
     otherUserPosts() {
         db.collection('posts').where("owner", "==", this.props.route.params.user).onSnapshot(
             docs => {
@@ -105,12 +91,10 @@ class Profile extends Component {
             }
         )
     }
-
     logout() {
         auth.signOut()
         this.props.navigation.navigate('Login')
     }
-
     updateUserName() {
         this.state.newusername == ''?
         this.setState({error: 'You cannot send an empty form'})
@@ -129,7 +113,6 @@ class Profile extends Component {
         }).then(() => this.setState({updateBio: false}))
         
     }
-
     updatePassword( ) {
         if(this.state.newPass == ''){
             this.setState({error: 'You cannot send an empty form'})
@@ -145,45 +128,34 @@ class Profile extends Component {
        
            
     }
-
     deletePost(){
         db.collection('posts').doc(this.props.post.id).delete()
     }
-
     render() {
-
     if (this.props.route.params != undefined) {
         return (        
     
-
             <ScrollView style={styles.containerHome}>
-
                 <View  style={styles.profileContainer}>
-
                 {this.state.info.profilePicture != undefined 
                 ? 
                 <View>
                     <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
                 </View>
                 :
-                <Image style={styles.img} source={require('../../assets/nophoto.jpg')}/>
+                ''
                 }
-
                 <View  style={styles.infoProfileContainer}>
                 
     
                 <Text>
                     {this.props.route.params.user}
                 </Text>
-
                 <Text>
                     {this.state.info.bio}
                 </Text>
-
                 </View>
-
                 </View>
-
                 <Text>
                     Posts: {this.state.posts.length}
                 </Text>
@@ -206,23 +178,18 @@ class Profile extends Component {
             <ScrollView style={styles.containerHome}>
                     <View  style={styles.profileContainer}>
 
-
-
                     {this.state.info.profilePicture != undefined 
                             ? 
                         <View>
                             <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
                         </View>
                         :
-                        <Image style={styles.img} source={require('../../assets/nophoto.jpg')}/>
-                    }
-                   
-
-                            
-
+                        ''
+                    }                                        
+        
+  
                     <View  style={styles.infoProfileContainer}>
-
-                 {this.state.updateUserName ?
+                        {this.state.updateUserName ?
                             <View style={styles.updateContainer}>                             
                                 <TextInput 
                                 style={styles.field} 
@@ -321,66 +288,58 @@ class Profile extends Component {
                     }
     
                 </View>
-
                 </View>
-
-                </View>
+                </View>                
     
                 <Text>
                     Posts: {this.state.posts.length}
                 </Text>
+
+                <TouchableOpacity onPress={() => this.logout()}>
+                    <Text style={styles.logout}>Logout</Text>
+                </TouchableOpacity>
     
                     {this.state.posts.length == 0 ? 
                     
                     <Text style={styles.noPosts}> No posts yet </Text>    
-
                     :
-
                     <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => <Posts post={item}
                         style={styles.flatlist} />}
                 />
-
                 }
-                
-               
-    
-                <TouchableOpacity onPress={() => this.logout()}>
-                    <Text style={styles.logout}>Logout</Text>
-                </TouchableOpacity>
+                                                   
     
             </ScrollView>
     
         )
      }
-
     
     
-
-
        
     }
-
-
 }
-
 const styles = StyleSheet.create({
     img: {
         height: 120,
         width: 120,
-        marginTop: '10%',
-        borderRadius: '40px'
+        marginTop: 10,
+        borderRadius: 100,
+        flex: 1
     },
     profileContainer: {
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',        
     },
-
+    infoProfileContainer:{
+        flex: 3,
+        textAlign: 'center'
+    },
     updateContainer: {
         display :'flex',
         flexDirection: 'row',
@@ -388,7 +347,6 @@ const styles = StyleSheet.create({
     },
     itemFirst: {
         flex: 2
-
     },
     itemSecond: {
         flex: 1
@@ -396,11 +354,11 @@ const styles = StyleSheet.create({
     button:{
         backgroundColor: 'rgb(255, 51, 0)',
         borderRadius: 5,
-        marginTop: '5%',
-        margin: '2%',
-        padding: '1%',
+        marginTop: 7,
+        margin: 2,
+        padding: 4,
         textAlign: 'center',
-        fontSize: 10,
+        fontSize: 15,
         color: 'white',
         flex: 2,
         width: 50,
@@ -408,37 +366,37 @@ const styles = StyleSheet.create({
     field: {
         fontSize: 15,
         backgroundColor: 'rgb(230, 230, 230)',
-        margin: '1%',
+        margin: 2,
         borderRadius: 5,
-        padding: '1%',
+        padding: 3,
         color: 'rgb(153, 153, 153)',
         flex: 2
     },
     error: {
         color: 'red',
-        marginTop: '1%',
+        marginTop: 1,
         textAlign: 'center',
         fontSize: 10,
     },
     logout: {
         backgroundColor: 'black',
         borderRadius: 5,
-        marginTop: '5%',
-        margin: '2%',
-        padding: '1%',
-        marginLeft: '40%',
+        marginTop: 7,
+        margin: 4,
+        padding: 3,    
         textAlign: 'center',
         fontSize: 12,
         color: 'white',
         flex: 2,
         width: 100,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignSelf: 'center'
+
     },
     containerHome: {
         alignContent: 'center',  
         textAlign: 'center',
-        backgroundColor: 'white'
+        backgroundColor: '#F4F4F1'
     },
     flatlist: {
         flex: 1,
@@ -448,8 +406,5 @@ const styles = StyleSheet.create({
         marginTop: '20px',
         textAlign: 'center'
     }
-
-
 })
-
 export default Profile
