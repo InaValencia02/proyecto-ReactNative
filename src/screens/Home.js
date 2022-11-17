@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     containerHome: {
         alignContent: 'center',  
         textAlign: 'center',
-        backgroundColor: 'F4F4F1',
+        backgroundColor: '#F4F4F1',
         pading : 25,
     },    
     loader:{
