@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Image, Text, StyleSheet} from 'react-native';
+import { auth} from '../firebase/config';
 
 const styles = StyleSheet.create({
     image: {
@@ -40,8 +41,8 @@ class SearchResults extends Component {
     }
 
     goToProfile(user) {
-        this.props.navigation.navigate("OtherProfile", {user: user})
-    } 
+        this.props.navigation.navigate('OtherProfile', {user: user})
+    }    
 
     render(){
         console.log(this.props.userInfo)
@@ -49,10 +50,14 @@ class SearchResults extends Component {
             <View style={styles.resultsContainer}>
                 <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
                 <View style= {styles.info}>
-                <Text style={styles.name} onPress={() =>this.goToProfile(this.props.userInfo.data.owner)}>
-                    {this.props.userInfo.data.username} 
-                </Text>
-                <Text style={styles.bio}>{this.props.userInfo.data.bio}</Text>
+
+                {this.props.userInfo.data.owner == auth.currentUser.email ?
+                    <Text style={styles.name} onPress={() =>this.props.navigation.navigate("Profile")}>{this.props.userInfo.data.owner}</Text>
+                    :
+                    <Text style={styles.name} onPress={() =>this.goToProfile(this.props.userInfo.data.owner)}>{this.props.userInfo.data.owner}</Text>
+                }
+                
+                <Text style={styles.bio}>{this.props.userInfo.data.username}: {this.props.userInfo.data.bio}</Text>
                 </View>                               
                 
             </View>
