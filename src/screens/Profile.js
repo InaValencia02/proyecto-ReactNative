@@ -208,9 +208,14 @@ class Profile extends Component {
 
 
 
-                                <View>
-                                    <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
-                                </View>
+                    {this.state.info.profilePicture != undefined 
+                            ? 
+                        <View>
+                            <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
+                        </View>
+                        :
+                        ''
+                    }
                    
 
                             
