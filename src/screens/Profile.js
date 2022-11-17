@@ -157,6 +157,20 @@ class Profile extends Component {
     
 
             <ScrollView style={styles.containerHome}>
+
+                <View  style={styles.profileContainer}>
+
+                {this.state.info.profilePicture != undefined 
+                ? 
+                <View>
+                    <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
+                </View>
+                :
+                ''
+                }
+
+                <View  style={styles.infoProfileContainer}>
+                
     
                 <Text>
                     {this.props.route.params.user}
@@ -165,6 +179,10 @@ class Profile extends Component {
                 <Text>
                     {this.state.info.bio}
                 </Text>
+
+                </View>
+
+                </View>
 
                 <Text>
                     Posts: {this.state.posts.length}
@@ -354,7 +372,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     updateContainer: {
