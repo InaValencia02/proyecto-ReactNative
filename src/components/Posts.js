@@ -61,8 +61,7 @@ class Posts extends Component {
         db.collection('posts').doc(this.props.post.id).delete()
     }
 
-    render() {
-        console.log(this.props.post.data.urlImg)
+    render() {        
 
         const date = this.props.post.data.createdAt
 

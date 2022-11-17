@@ -56,11 +56,8 @@ const styles = StyleSheet.create({
         alignContent: 'center',  
         textAlign: 'center',
         backgroundColor: 'F4F4F1',
-        pading : 20,
-    },
-    flatlist: {     
-       
-    },
+        pading : 25,
+    },    
     loader:{
         marginTop: 100
     }
