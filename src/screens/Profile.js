@@ -6,8 +6,6 @@ import { EvilIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
 
-
-
 class Profile extends Component {
 
     constructor(props) {
@@ -157,6 +155,55 @@ class Profile extends Component {
             return (
 
 
+            <ScrollView style={styles.containerHome}>
+
+                <View  style={styles.profileContainer}>
+
+                {this.state.info.profilePicture != undefined 
+                ? 
+                <View>
+                    <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
+                </View>
+                :
+                <Image style={styles.img} source={require('../../assets/nophoto.jpg')}/>
+                }
+
+                <View  style={styles.infoProfileContainer}>
+                
+    
+                <Text>
+                    {this.props.route.params.user}
+                </Text>
+
+                <Text>
+                    {this.state.info.bio}
+                </Text>
+
+                </View>
+
+                </View>
+
+                <Text>
+                    Posts: {this.state.posts.length}
+                </Text>
+                <FlatList
+                    data={this.state.posts}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => <Posts post={item}
+                    style={styles.flatlist} />}
+                />
+                
+    
+            </ScrollView>
+    
+        )
+        
+    }
+     else {
+        return (        
+    
+            <ScrollView style={styles.containerHome}>
+                    <View  style={styles.profileContainer}>
                 <ScrollView style={styles.containerHome}>
 
                     <Text>
@@ -186,6 +233,15 @@ class Profile extends Component {
 
 
 
+                    {this.state.info.profilePicture != undefined 
+                            ? 
+                        <View>
+                            <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
+                        </View>
+                        :
+                        <Image style={styles.img} source={require('../../assets/nophoto.jpg')}/>
+                    }
+                   
                         <View>
                             <Image style={styles.img} source={{ uri: this.state.info.profilePicture }} />
                         </View>
@@ -336,7 +392,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     updateContainer: {
@@ -402,6 +459,10 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%'
     },
+    noPosts : {
+        marginTop: '20px',
+        textAlign: 'center'
+    }
 
 
 })

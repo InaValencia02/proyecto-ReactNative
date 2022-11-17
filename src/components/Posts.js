@@ -69,17 +69,31 @@ class Posts extends Component {
 
         const fecha = d.toString()
 
-        const fechaLimpia = fecha.replace('','')
-
         return (
             <View style={styles.postContainer}>      
                 
                 <Image style={styles.img} source={{uri: this.props.post.data.urlImg}}/>
 
              
+
+                {this.props.post.data.owner == auth.currentUser.email 
+                
+                ?
+                <Text onPress={() =>this.props.navigation.navigate("Profile")} style={styles.name}>
+                    {this.props.post.data.owner}
+                </Text>
+
+                :
+
                 <Text onPress={() =>this.goToProfile(this.props.post.data.owner)} style={styles.name}>
                     {this.props.post.data.owner}
                 </Text>
+
+                
+            
+            
+            }
+                
 
                 <Text style={styles.bio}>
                 {this.props.post.data.post}

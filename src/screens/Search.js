@@ -96,7 +96,7 @@ class Search extends Component{
                         style={styles.flatlist}
                         data={this.state.filteredUsers}
                         keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <SearchResults userInfo={item}/> }
+                        renderItem={({ item }) => <SearchResults userInfo={item} navigation={this.props.navigation}/> }
                     />
                 
             </View>
