@@ -128,9 +128,7 @@ class Profile extends Component {
        
            
     }
-    deletePost(){
-        db.collection('posts').doc(this.props.post.id).delete()
-    }
+
     render() {
     if (this.props.route.params != undefined) {
         return (        
@@ -143,7 +141,7 @@ class Profile extends Component {
                     <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
                 </View>
                 :
-                ''
+                 <Image style={styles.img} source={require('../../assets/nophoto.jpg')} />
                 }
                 <View  style={styles.infoProfileContainer}>
                 
@@ -173,18 +171,18 @@ class Profile extends Component {
         
     }
      else {
+        console.log(this.state.info);
         return (        
     
             <ScrollView style={styles.containerHome}>
                     <View  style={styles.profileContainer}>
 
-                    {this.state.info.profilePicture != undefined 
-                            ? 
+                    {this.state.info.profilePicture != undefined ? 
                         <View>
-                            <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
+                            <Image style={styles.img} source={{uri: this.state.info.profilePicture}} resizeMode='contain'/>
                         </View>
                         :
-                        ''
+                        <Image style={styles.img} source={require('../../assets/nophoto.jpg')} resizeMode='contain'/>
                     }                                        
         
   
@@ -327,7 +325,7 @@ const styles = StyleSheet.create({
         width: 120,
         marginTop: 10,
         borderRadius: 100,
-        flex: 1
+        flex: 1,
     },
     profileContainer: {
         display: 'flex',
