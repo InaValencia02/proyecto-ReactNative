@@ -95,15 +95,6 @@ class Posts extends Component {
                         </Text>
                     }
 
-                    {
-                        this.props.post.data.owner == auth.currentUser.email ?
-                            <TouchableOpacity onPress={() => this.deletePost()}>
-                                <Text style={styles.deletebutton}>Delete post</Text>
-                            </TouchableOpacity>
-                            :
-                            <></>
-                    }
-
                 </View>
 
 
