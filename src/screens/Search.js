@@ -59,14 +59,14 @@ class Search extends Component{
     
     clear() {
         this.setState({
-            dataSearchResults: [],
+            filteredUsers: [],
             search: false,
             textSearch: '',
         })
     };
 
     render(){
-        console.log(this.state.dataSearchResults)
+        console.log(this.state.filteredUsers)
         return(
             <View style={styles.container}>
                 <Text style={styles.title}>Search for anyone</Text>
