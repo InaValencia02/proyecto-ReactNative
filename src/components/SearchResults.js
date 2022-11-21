@@ -48,7 +48,11 @@ class SearchResults extends Component {
         console.log(this.props.userInfo)
         return(
             <View style={styles.resultsContainer}>
+                {this.props.userInfo.data.profilePicture == undefined || this.props.userInfo.data.profilePicture == ""? 
+                <Image style={styles.image} source={require('../../assets/nophoto.jpg')} resizeMode='contain'/>
+                :
                 <Image source={{uri: this.props.userInfo.data.profilePicture}} style={styles.image}/>
+                }
                 <View style= {styles.info}>
 
                 {this.props.userInfo.data.owner == auth.currentUser.email ?

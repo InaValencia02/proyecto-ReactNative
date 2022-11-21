@@ -135,9 +135,11 @@ class Profile extends Component {
     
             <ScrollView style={styles.containerHome}>
                 <View  style={styles.profileContainer}>
-
+                {this.state.info.profilePicture == undefined || this.state.info.profilePicture == "" ? 
+                    <Image style={styles.img} source={require('../../assets/nophoto.jpg')} resizeMode='contain'/>
+                    :
                     <Image style={styles.img} source={{ uri: this.state.info.profilePicture}} />
-               
+                }
                 <View  style={styles.infoProfileContainer}>
                 
     
@@ -172,12 +174,10 @@ class Profile extends Component {
             <ScrollView style={styles.containerHome}>
                     <View  style={styles.profileContainer}>
 
-                    {this.state.info.profilePicture != undefined ? 
-                        <View>
-                            <Image style={styles.img} source={{uri: this.state.info.profilePicture}} resizeMode='contain'/>
-                        </View>
-                        :
+                    {this.state.info.profilePicture == undefined || this.state.info.profilePicture == "" ? 
                         <Image style={styles.img} source={require('../../assets/nophoto.jpg')} resizeMode='contain'/>
+                        :
+                        <Image style={styles.img} source={{ uri: this.state.info.profilePicture}} />
                     }                                        
         
   

@@ -31,9 +31,6 @@ class Search extends Component{
     }
 
     preventSubmit(){       
-
-        this.setState({ usersErr: ''}); 
-
         let textToFilter = this.state.textSearch.toLowerCase();
 
         console.log(this.state.users)
@@ -45,7 +42,7 @@ class Search extends Component{
         if (filteredUsers.length === 0){
             return this.setState({ usersErr: 'Sorry, that user does not exist', filteredUsers: []}) 
         }else{
-            this.setState({ filteredUsers: filteredUsers}) 
+            this.setState({ filteredUsers: filteredUsers, usersErr: ''}) 
         }
     }
     
@@ -54,6 +51,7 @@ class Search extends Component{
             filteredUsers: [],
             search: false,
             textSearch: '',
+            usersErr: []
         })
     };
 
