@@ -15,6 +15,7 @@ class Search extends Component{
             usersErr: ''
         }
     }
+    
     componentDidMount () {
         db.collection('users').onSnapshot(
             docs => {
@@ -29,33 +30,24 @@ class Search extends Component{
         )
     }
 
-    preventSubmit(event){       
-        event.preventDefault() 
+    preventSubmit(){       
 
         this.setState({ usersErr: ''}); 
 
         let textToFilter = this.state.textSearch.toLowerCase();
 
-        if (this.state.textSearch === '') {
-            this.setState({requiredField: 'You cannot send an empty form'})
-        } else {
-            console.log(this.state.users)
-            this.setState({requiredField: ''})
+        console.log(this.state.users)
 
-            const filteredUsers = this.state.users?.filter((user) => user.data.username.toLowerCase().includes(textToFilter));
+        const filteredUsers = this.state.users?.filter((user) => user.data.username.toLowerCase().includes(textToFilter));
             
-            console.log(filteredUsers)
+        console.log(filteredUsers)
 
-            if (filteredUsers.length === 0) return this.setState({ usersErr: 'Sorry, that user does not exist', filteredUsers: []}) 
-
-
+        if (filteredUsers.length === 0){
+            return this.setState({ usersErr: 'Sorry, that user does not exist', filteredUsers: []}) 
+        }else{
             this.setState({ filteredUsers: filteredUsers}) 
         }
     }
-  
-    controlChanges(event){
-        this.setState({textSearch: event.target.value})
-    }    
     
     clear() {
         this.setState({
@@ -71,17 +63,16 @@ class Search extends Component{
             <View style={styles.container}>
                 <Text style={styles.title}>Search for anyone</Text>
                 <TextInput style={styles.field} 
-                     keyboardType='default'
+                    keyboardType='default'
                     placeholder='   Search ' 
-                    onChangeText={ text => this.setState({textSearch:text}) }
+                    onChangeText={ text => {
+                        this.setState({textSearch:text});
+                        this.preventSubmit()
+                    }}
                     value={this.state.textSearch}
-                    onChange={(event) => this.controlChanges(event)}
                 />
                
                <View style= {styles.buttonsContainer}>
-                <TouchableOpacity onPress={(event) => this.preventSubmit(event)}>
-                    <Text  style={styles.button}>Send</Text>
-                </TouchableOpacity>
                  <TouchableOpacity onPress={() => this.clear()}>
                     <Text  style={styles.button}>Clear search</Text>
                 </TouchableOpacity>

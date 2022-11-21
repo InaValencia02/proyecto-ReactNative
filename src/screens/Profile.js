@@ -135,14 +135,9 @@ class Profile extends Component {
     
             <ScrollView style={styles.containerHome}>
                 <View  style={styles.profileContainer}>
-                {this.state.info.profilePicture != undefined 
-                ? 
-                <View>
-                    <Image style={styles.img} source={{uri: this.state.info.profilePicture}}/>
-                </View>
-                :
-                 <Image style={styles.img} source={require('../../assets/nophoto.jpg')} />
-                }
+
+                    <Image style={styles.img} source={{ uri: this.state.info.profilePicture}} />
+               
                 <View  style={styles.infoProfileContainer}>
                 
     
