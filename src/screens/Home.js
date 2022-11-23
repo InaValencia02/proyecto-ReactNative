@@ -35,7 +35,7 @@ class Home extends Component{
             <ScrollView style={styles.containerHome}>    
             <View style={styles.logoContainer}>
                 <Image style={styles.img} source={require('../../assets/favicon.png')} resizeMode='contain'/>
-                <Text style={styles.title}>BookLand</Text>
+                <Text style={styles.title}>PhotoLand</Text>
             </View>           
                                                    
                { this.state.posts === null ?
