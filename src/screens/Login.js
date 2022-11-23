@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import {auth} from '../firebase/config';
 
 const styles = StyleSheet.create({
@@ -11,12 +11,7 @@ const styles = StyleSheet.create({
         padding: '1%',
         color: 'rgb(153, 153, 153)'
     },
-    title: {
-        fontSize: 50,
-        fontWeight: 'bold',
-        margin: '8%',
-        marginBottom: '25%',
-    },
+    
     button:{
         backgroundColor: 'rgb(255, 51, 0)',
         borderRadius: '30px',
@@ -44,7 +39,30 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
         
-    }
+    }, 
+    titleContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        justifyContent: 'center',   
+        alignItems: 'center',
+        marginBottom: 35,
+
+         
+    },
+    img:{
+        height: 120,
+        width: 120,
+        marginTop: 10,
+        borderRadius: 100,
+        flex: 1,
+    },
+    title: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        margin: 10,        
+        flex: 2
+    },
 })
 
 class Login extends Component{
@@ -84,7 +102,12 @@ class Login extends Component{
     render(){
         return(
             <View style={styles.container}>
+
+                <View style={styles.titleContainer}>
+                <Image style={styles.img} source={require('../../assets/favicon.png')} resizeMode='contain'/>
                 <Text style={styles.title}>Login</Text>
+                </View>
+                
 
                 <TextInput style={styles.field} 
                     keyboardType='email-address'

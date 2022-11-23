@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, ActivityIndicator, Text, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, ActivityIndicator, Text, FlatList, ScrollView, Image, View,  } from 'react-native';
 import Posts from '../components/Posts'
 import {auth, db} from '../firebase/config';
 
@@ -32,7 +32,11 @@ class Home extends Component{
 
 
         return (
-            <ScrollView style={styles.containerHome}>               
+            <ScrollView style={styles.containerHome}>    
+            <View style={styles.logoContainer}>
+                <Image style={styles.img} source={require('../../assets/favicon.png')} resizeMode='contain'/>
+                <Text style={styles.title}>BookLand</Text>
+            </View>           
                                                    
                { this.state.posts === null ?
 
@@ -60,7 +64,27 @@ const styles = StyleSheet.create({
     },    
     loader:{
         marginTop: 100
-    }
+    },
+    logoContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',             
+        alignItems: 'center',
+        textAlign: 'left',
+        marginBottom: 5,  
+        backgroundColor: 'white',
+        padding: 5      
+    },
+    img:{
+        height: 40,
+        width: 40,              
+        flex: 1,
+    },
+    title: {
+        fontSize: 18,                     
+        flex: 2, 
+              
+    },
 })
 
 export default Home

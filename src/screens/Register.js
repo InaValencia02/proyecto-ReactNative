@@ -13,11 +13,26 @@ const styles = StyleSheet.create({
         padding: '1%',
         color: 'rgb(153, 153, 153)'
     },
+    titleContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        justifyContent: 'center',   
+        alignItems: 'center',
+        marginBottom: 35,         
+    },
+    logo:{
+        height: 120,
+        width: 120,
+        marginTop: 10,
+        borderRadius: 100,
+        flex: 1,
+    },
     title: {
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: 'bold',
-        height: 100,
-        margin: 5,
+        margin: 10,        
+        flex: 2
     },
     button:{
         backgroundColor: 'rgb(255, 51, 0)',
@@ -111,7 +126,12 @@ class Register extends Component{
     render(){
         return(
             <View style={styles.container}>
+
+                <View style={styles.titleContainer}>
+                <Image style={styles.logo} source={require('../../assets/favicon.png')} resizeMode='contain'/>
                 <Text style={styles.title}>Register</Text>
+                </View>
+             
                 <TextInput style={styles.field} 
                     keyboardType='email-address'
                     placeholder='   Email'
