@@ -83,12 +83,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     postInput: {
-        width: '100%',
+        width: '100vw',
         fontSize: 15,
         backgroundColor: 'rgb(230, 230, 230)',
-        margin: '1%',
-        borderRadius: '30px',
-        padding: '1%',
+        margin: 2,
+        borderRadius: 30,
+        padding: 3,
         color: 'rgb(153, 153, 153)'
     },
     camera : {
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
     },
     postButton: {
         backgroundColor: 'rgb(255, 51, 0)',
-        borderRadius: '30px',
-        margin: '2%',
+        borderRadius: 20,
+        margin: 4,
         padding: 3,
         textAlign: 'center',
         fontSize: 15,
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     },
     error: {
         color: 'red',
-        marginTop: '1%',
+        marginTop: 2,
         textAlign: 'center',
         fontSize: 15,
     }
