@@ -372,11 +372,11 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
     logout: {
-        backgroundColor: 'black',
+        backgroundColor: 'rgb(255, 51, 0)',
         borderRadius: 5,
         marginTop: 7,
         margin: 4,
-        padding: 3,    
+        padding: 5,    
         textAlign: 'center',
         fontSize: 12,
         color: 'white',
