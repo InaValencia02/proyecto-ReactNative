@@ -101,7 +101,7 @@ class Posts extends Component {
                 <Image style={styles.img} source={{ uri: this.props.post.data.urlImg }} />
                
                 <Text style={styles.bio}>
-                    {this.props.post.data.post}
+                    {this.props.post.data.post}  
                 </Text>                
 
                 <View style={styles.likesContainer}>
@@ -174,7 +174,7 @@ class Posts extends Component {
                         <></>
                     }
                     
-                    <Text style={styles.postedOn}>
+                    <Text style={styles.postedOn}> 
                     Posted on {fecha}
                     </Text>
 

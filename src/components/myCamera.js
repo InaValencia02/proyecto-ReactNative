@@ -61,6 +61,12 @@ class MyCamera extends Component {
             uriImg: ''
         })
        }
+
+       stopCamera() {
+        this.setState({
+            showCamera: false
+        })
+       }
        
       
     
@@ -80,7 +86,7 @@ class MyCamera extends Component {
                     />
 
                     <View>
-                        <TouchableOpacity onPress={() => this.savePhoto()}>
+                        <TouchableOpacity onPress={() => {this.savePhoto() , this.stopCamera()}}>
 
                             <Text>
                                 
