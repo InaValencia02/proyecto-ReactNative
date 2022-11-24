@@ -103,6 +103,7 @@ class Profile extends Component {
             db.collection('users').doc(this.state.userid).update({
                 username: this.state.newusername,
             }).then(() => this.setState({ updateUserName: false }))
+            .catch(err => {this.setState({err: err.message})})
 
     }
     updateBio() {
@@ -112,6 +113,7 @@ class Profile extends Component {
             db.collection('users').doc(this.state.userid).update({
                 bio: this.state.newbio
             }).then(() => this.setState({ updateBio: false }))
+            .catch(err => {this.setState({err: err.message})})
 
     }
     updatePassword() {
