@@ -122,7 +122,8 @@ class Profile extends Component {
             auth.currentUser.reauthenticateWithCredential(emailCred)
                 .then(() => {
                     return auth.currentUser.updatePassword(this.state.newPass)
-                        .then(this.setState({ updatePass: false }));
+                        .then(this.setState({ updatePass: false }))
+                        .catch(err => {this.setState({err: err.message})})
                 })
                 .catch(err => {this.setState({err: err.message})})
         }
