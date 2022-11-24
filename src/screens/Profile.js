@@ -26,6 +26,7 @@ class Profile extends Component {
             infoOtherUser: [],
             otherUserPosts: [],
             error: '',
+            err: [],
         }
     }
     componentDidMount() {
@@ -123,7 +124,7 @@ class Profile extends Component {
                     return auth.currentUser.updatePassword(this.state.newPass)
                         .then(this.setState({ updatePass: false }));
                 })
-                .catch(error => { console.log(error); });
+                .catch(err => {this.setState({err: err.message})})
         }
 
 
@@ -225,6 +226,7 @@ class Profile extends Component {
                                         value={this.state.newPass}
                                     />
                                     <Text style={styles.error}>{this.state.error}</Text>
+                                    <Text style={styles.error}>{this.state.err}</Text>
                                     <TouchableOpacity onPress={() => this.updatePassword()} >
                                         <Text style={styles.button} >Update</Text>
                                     </TouchableOpacity>
